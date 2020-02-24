@@ -1,5 +1,6 @@
 package sample.app
 
+import sample.models.Game
 import sample.api.Api
 import kotlin.properties.Delegates
 
@@ -7,8 +8,6 @@ interface User {
     val color: String
     val symbol: String
 }
-
-data class Game(var field: List<List<User?>>)
 
 data class State(var games: List<Game>, var user: User? = null)
 
@@ -56,14 +55,4 @@ interface MoveEvent {
     val gameId: String
 }
 
-fun applyMove(game: Game, move: MoveEvent): Game {
-    val newGame = game.copy()
-    newGame.field = newGame.field.mapIndexed { i, cells ->
-        if (i == move.x)
-            cells.mapIndexed { j, cell ->
-                if (j == move.y) move.user else cell
-            }
-        else cells
-    }
-    return newGame
-}
+fun applyMove(game: Game, move: MoveEvent) = game

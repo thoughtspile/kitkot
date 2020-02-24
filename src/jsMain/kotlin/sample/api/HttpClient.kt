@@ -27,8 +27,8 @@ class HttpClient {
     private fun run(path: String, config: RequestInit) = fetch("$host$path", config)
 //    private fun <Res> runTyped(path: String, config: RequestInit)
 
-    fun <Res> get(path: String) =
-        run(path, getConfig()).then { it.json() as Res }
-    fun <Res> post(path: String, data: Any? = null) =
-        run(path, getConfig(method = "POST", body = data)).then { it.json() as Res }
+    fun get(path: String) =
+        run(path, getConfig())
+    fun post(path: String, data: Any? = null) =
+        run(path, getConfig(method = "POST", body = data))
 }

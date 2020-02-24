@@ -1,5 +1,6 @@
 package sample.app
 
+import sample.models.Game
 import sample.api.Api
 import kotlin.js.*
 import react.*
