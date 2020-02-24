@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a980f1df-3544-42f6-ac52-92379208b928" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/WsClient.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/sample/models/Game.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/sample/models/Game.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/Api.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/Api.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/HttpClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/HttpClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/WsClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/WsClient.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Storage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Storage.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,25 +94,25 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="421" y="157" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1366.768@0.0.1366.768" timestamp="1582554322522" />
-    <state width="1324" height="202" key="GridCell.Tab.0.bottom" timestamp="1582556435087">
-      <screen x="0" y="23" width="1366" height="745" />
+    <state width="1324" height="202" key="GridCell.Tab.0.bottom" timestamp="1582557507960">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1582556354312" />
+    <state width="1324" height="202" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1582557507960" />
     <state width="1324" height="202" key="GridCell.Tab.0.bottom/0.23.1366.745@0.23.1366.745" timestamp="1582556435087" />
-    <state width="1324" height="202" key="GridCell.Tab.0.center" timestamp="1582556435084">
-      <screen x="0" y="23" width="1366" height="745" />
+    <state width="1324" height="202" key="GridCell.Tab.0.center" timestamp="1582557507958">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1582556354309" />
+    <state width="1324" height="202" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1582557507958" />
     <state width="1324" height="202" key="GridCell.Tab.0.center/0.23.1366.745@0.23.1366.745" timestamp="1582556435084" />
-    <state width="1324" height="202" key="GridCell.Tab.0.left" timestamp="1582556435076">
-      <screen x="0" y="23" width="1366" height="745" />
+    <state width="1324" height="202" key="GridCell.Tab.0.left" timestamp="1582557507941">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1582556354305" />
+    <state width="1324" height="202" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1582557507941" />
     <state width="1324" height="202" key="GridCell.Tab.0.left/0.23.1366.745@0.23.1366.745" timestamp="1582556435075" />
-    <state width="1324" height="202" key="GridCell.Tab.0.right" timestamp="1582556435086">
-      <screen x="0" y="23" width="1366" height="745" />
+    <state width="1324" height="202" key="GridCell.Tab.0.right" timestamp="1582557507959">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1582556354311" />
+    <state width="1324" height="202" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1582557507959" />
     <state width="1324" height="202" key="GridCell.Tab.0.right/0.23.1366.745@0.23.1366.745" timestamp="1582556435086" />
     <state x="171" y="0" key="SettingsEditor" timestamp="1582554324109">
       <screen x="0" y="0" width="1366" height="768" />

@@ -37,9 +37,10 @@ class Store {
 
     fun processMove(move: Move) =
         setState {
-            games = games.mapIndexed { i, game ->
-                game.processMove(move)
-                game
+            games = games.map {
+                if (it.id == move.gameId)
+                    it.processMove(move)
+                it
             }
         }
 }
