@@ -6,8 +6,8 @@
         <dependsOnModuleNames>kitkot2_commonTest</dependsOnModuleNames>
         <sourceSets>
           <sourceSet>kitkot2.jvmMain</sourceSet>
-          <sourceSet>kitkot2.commonMain</sourceSet>
           <sourceSet>kitkot2.commonTest</sourceSet>
+          <sourceSet>kitkot2.commonMain</sourceSet>
         </sourceSets>
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <externalSystemTestTasks>jvmTest|kitkot2:jvmTest|jvm</externalSystemTestTasks>

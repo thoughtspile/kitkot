@@ -79,7 +79,7 @@ module.exports = {
     modules: [
       'node_modules',
       paths.appNodeModules,
-      paths.kotlinOutputPath,
+      paths.kotlinOutputPath
     ].concat(
       // It is guaranteed to exist because we tweak it in `env.js`
       process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
@@ -178,14 +178,14 @@ module.exports = {
   },
   plugins: [
     new KotlinWebpackPlugin({
-      src: paths.appSrc,
+      src: [paths.appSrc, paths.commonSrc],
       output: paths.kotlinOutputPath,
-      moduleName: kotlinModuleName,
+      moduleName: 'kotlinApp',
       librariesAutoLookup: true,
       packagesContents: [
-        
         require(paths.appPackageJson),
       ],
+      plugin: require.resolve('kotlin-compiler/lib/kotlinx-serialization-compiler-plugin.jar'),
     }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({

@@ -79,4 +79,5 @@ module.exports = {
   kotlinOutputPath: resolveApp('node_modules/.cache/kotlin-webpack'),
   projectPath: getProjectPath(resolveApp('.')),
   imlPath: findIml(resolveApp('.')),
+  commonSrc: resolveApp('../commonMain/kotlin/sample'),
 };

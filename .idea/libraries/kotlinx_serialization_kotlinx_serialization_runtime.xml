@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="kotlinx-serialization-kotlinx-serialization-runtime" type="kotlin.js">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/src/jsMain/node_modules/@cachet/kotlinx-serialization-runtime" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

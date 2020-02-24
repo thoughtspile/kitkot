@@ -7,7 +7,6 @@ import kotlinx.html.js.onClickFunction
 import org.w3c.dom.WebSocket
 import react.dom.*
 
-
 val store = Store()
 
 class App : RComponent<RProps, RState>() {

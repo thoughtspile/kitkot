@@ -16,6 +16,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@cachet/kotlinx-serialization-runtime@^0.14.0-rc.2":
+  version "0.14.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@cachet/kotlinx-serialization-runtime/-/kotlinx-serialization-runtime-0.14.0-rc.2.tgz#6b3909422cb9927e5d037505d79abd0ccd3508b4"
+
 "@jetbrains/gen-idea-libs@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@jetbrains/gen-idea-libs/-/gen-idea-libs-2.0.0.tgz#09cb1f7d49a46f23846c1fa203983ccfeef7bb3e"
