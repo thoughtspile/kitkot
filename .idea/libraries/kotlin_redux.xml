@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="kotlin-redux" type="kotlin.js">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/src/jsMain/node_modules/@jetbrains/kotlin-redux/build/classes/main" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

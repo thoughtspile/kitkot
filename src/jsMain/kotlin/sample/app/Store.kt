@@ -19,34 +19,36 @@ data class AppState(
 class Actions: RAction {
     class SetUser(val user: User): RAction
     class SetGames(val games: List<Game>): RAction
+    class AddGame(val game: Game): RAction
     class Move(val move: sample.models.Move): RAction
 }
 
 class StateManager {
-    fun reduce(state: AppState, action: RAction) = when (action) {
-        is Actions.SetUser -> state.update { user = action.user }
-        is Actions.SetGames -> state.update { games = action.games }
-        is Actions.Move -> state.update {
-            games = games.map {
-                if (it.id == action.move.gameId)
-                    try {
-                        it.processMove(action.move)
-                    } catch (err: Exception) {}
-                it
-            }
-        }
-        else -> state
-    }
-
     val store = createStore(::reduce, AppState(), rEnhancer())
     private fun dispatchAsync(p: Promise<RAction>) = p.then { store.dispatch(it) }
 
     fun init() = dispatchAsync(Api.register().then { Actions.SetUser(it) }).then {
-        loadGames()
+        dispatchAsync(Api.loadGames().then { Actions.SetGames(it) })
     }
-
-    fun loadGames() = dispatchAsync(Api.loadGames().then { Actions.SetGames(it) })
-
     fun move(move: Api.MovePayload) = Api.move(move)
     fun processMove(move: Move) = store.dispatch(Actions.Move(move))
+    fun addGame(game: Game) = store.dispatch(Actions.AddGame(game))
+}
+
+private fun reduce(state: AppState, action: RAction) = when (action) {
+    is Actions.SetUser -> state.update { user = action.user }
+    is Actions.SetGames -> state.update { games = action.games }
+    is Actions.Move -> state.update {
+        games = games.map {
+            if (it.id == action.move.gameId)
+                try {
+                    it.processMove(action.move)
+                } catch (err: Exception) {}
+            it
+        }
+    }
+    is Actions.AddGame -> state.update {
+        games += action.game
+    }
+    else -> state
 }
