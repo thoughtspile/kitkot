@@ -49,7 +49,7 @@ fun RBuilder.game(game: Game, gameId: Int) {
                     }
                     attrs.onClickFunction = { store.move(Api.MovePayload(gameId.toString(), row, col)) }
                     cell?.let {
-                        span("Game-field-symbol") { +"x" }
+                        span("Game-field-symbol fa fa-${cell.symbol}") {}
                     }
                 }
             }
