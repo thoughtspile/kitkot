@@ -3,6 +3,7 @@
  */
 'use strict';
 const path = require('path');
+const fs = require('fs');
 const generate = require('@jetbrains/gen-idea-libs');
 const librariesLookup = require('@jetbrains/kotlin-webpack-plugin/libraries-lookup');
 
@@ -17,4 +18,15 @@ const generationConfig = libPaths.reduce((config, libPath) => {
   return config;
 }, {});
 
-generate(generationConfig, paths.projectPath);
+// ensure libraries directory exists
+const ensureIdeaLibs = () => {
+    const ideaLibsPath = path.join(paths.projectPath, '.idea/libraries');
+    try {
+        fs.accessSync(ideaLibsPath);
+    } catch (err) {
+        fs.mkdirSync(ideaLibsPath);
+    }
+};
+
+ensureIdeaLibs();
+generate(generationConfig, paths.projectPath, paths.imlPath);

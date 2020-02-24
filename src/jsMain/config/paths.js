@@ -40,6 +40,14 @@ function getProjectPath(dir) {
     throw new Error('Cannot locate IDEA project');
 }
 
+const findIml = function(directory) {
+  const imlList = fs.readdirSync(directory).filter((element) => {
+    var extName = path.extname(element);
+    return extName === '.iml';
+  });
+  return imlList.length > 0 && imlList[0] || null
+}
+
 const getPublicUrl = appPackageJson =>
   envPublicUrl || require(appPackageJson).homepage;
 
@@ -70,4 +78,5 @@ module.exports = {
   servedPath: getServedPath(resolveApp('package.json')),
   kotlinOutputPath: resolveApp('node_modules/.cache/kotlin-webpack'),
   projectPath: getProjectPath(resolveApp('.')),
+  imlPath: findIml(resolveApp('.')),
 };
