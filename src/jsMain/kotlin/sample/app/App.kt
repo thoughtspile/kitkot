@@ -5,6 +5,7 @@ import sample.api.Api
 import kotlin.js.*
 import react.*
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.style
 import org.w3c.dom.WebSocket
 import react.dom.*
 import sample.api.WsClient
@@ -25,7 +26,7 @@ class App : RComponent<RProps, RState>() {
                 +"Привет, ${store.state.user!!.color} ${store.state.user!!.symbol}!"
             }
         }
-        div {
+        div("Game-list") {
             store.state.games.mapIndexed() { i, item ->
                 game(game=item, gameId=i)
             }
@@ -39,13 +40,16 @@ class App : RComponent<RProps, RState>() {
 
 fun RBuilder.game(game: Game, gameId: Int) {
     console.log(game)
-    div {
+    div("Game-field") {
         game.field.mapIndexed { row, cells ->
-            div {
-                cells.mapIndexed { col, cell ->
-                    span {
-                        attrs.onClickFunction = { store.move(Api.MovePayload(gameId.toString(), row, col)) }
-                        +(cell?.let { "x" } ?: ".")
+            cells.mapIndexed { col, cell ->
+                span("Game-field-cell") {
+                    cell?.let {
+                        attrs.jsStyle { color = cell.color }
+                    }
+                    attrs.onClickFunction = { store.move(Api.MovePayload(gameId.toString(), row, col)) }
+                    cell?.let {
+                        span("Game-field-symbol") { +"x" }
                     }
                 }
             }

@@ -16,3 +16,32 @@ body {
 .App-ticker {
   font-size: medium;
 }
+
+.Game-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.Game-field {
+  display: flex;
+  flex-wrap: wrap;
+  border-left: 1px solid #bbb;
+  border-top: 1px solid #bbb;
+}
+
+.Game-field-cell {
+  flex: 0 0 10%;
+  box-sizing: border-box;
+  border: 1px solid #bbb;
+  border-left: none;
+  border-top: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Game-field-cell::after {
+  content: " ";
+  margin-bottom: 100%;
+  display: block;
+}

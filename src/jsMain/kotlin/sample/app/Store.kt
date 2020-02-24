@@ -39,7 +39,9 @@ class Store {
         setState {
             games = games.map {
                 if (it.id == move.gameId)
-                    it.processMove(move)
+                    try {
+                        it.processMove(move)
+                    } catch (err: Exception) {}
                 it
             }
         }
