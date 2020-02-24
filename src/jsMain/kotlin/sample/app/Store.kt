@@ -1,13 +1,8 @@
 package sample.app
 
-import sample.models.Game
+import sample.models.*
 import sample.api.Api
 import kotlin.properties.Delegates
-
-interface User {
-    val color: String
-    val symbol: String
-}
 
 data class State(var games: List<Game>, var user: User? = null)
 
@@ -40,19 +35,11 @@ class Store {
     fun move(move: Api.MovePayload) =
         Api.move(move)
 
-    fun processMove(move: MoveEvent) =
+    fun processMove(move: Move) =
         setState {
             games = games.mapIndexed { i, game ->
-                if (i.toString() == move.gameId) applyMove(game, move) else game
+                game.processMove(move)
+                game
             }
         }
 }
-
-interface MoveEvent {
-    val x: Int
-    val y: Int
-    val user: User
-    val gameId: String
-}
-
-fun applyMove(game: Game, move: MoveEvent) = game

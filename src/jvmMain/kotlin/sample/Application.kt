@@ -140,7 +140,7 @@ fun Application.module(testing: Boolean = false) {
                 val data = call.receive<MovePayload>()
                 val uid = call.principal<UserIdPrincipal>() ?: error("No principal")
                 val user = User.get(uid.name) ?: error("No such user")
-                Storage.processMove(data.gameId, Move(user, data.x, data.y))
+                Storage.processMove(data.gameId, Move(user, data.x, data.y, data.gameId))
                 call.respond({})
             }
         }

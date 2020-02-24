@@ -7,17 +7,16 @@ import react.*
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.WebSocket
 import react.dom.*
+import sample.api.WsClient
 
 val store = Store()
+val wsClient = WsClient()
 
 class App : RComponent<RProps, RState>() {
     override fun componentDidMount() {
         store.init()
         store.onChange { forceUpdate() }
-        val webSocket = WebSocket("ws://localhost:8080/events")
-        webSocket.onmessage = {
-            store.loadGames()
-        }
+        wsClient.start({ store.processMove(it) }, { store.loadGames() })
     }
 
     override fun RBuilder.render() {
@@ -39,13 +38,14 @@ class App : RComponent<RProps, RState>() {
 }
 
 fun RBuilder.game(game: Game, gameId: Int) {
+    console.log(game)
     div {
-        arrayOf(game.field).mapIndexed { row, cells ->
+        game.field.mapIndexed { row, cells ->
             div {
                 cells.mapIndexed { col, cell ->
                     span {
                         attrs.onClickFunction = { store.move(Api.MovePayload(gameId.toString(), row, col)) }
-                        +(if (cell == null) "." else "x")
+                        +(cell?.let { "x" } ?: ".")
                     }
                 }
             }

@@ -24,8 +24,9 @@ class HttpClient {
         override var body = body?.let { JSON.stringify(body) } ?: undefined
         override var mode = RequestMode.CORS as RequestMode?
     }
-    private fun run(path: String, config: RequestInit) = fetch("$host$path", config)
-//    private fun <Res> runTyped(path: String, config: RequestInit)
+    private fun run(path: String, config: RequestInit) = fetch("$host$path", config).then {
+        it.text()
+    }
 
     fun get(path: String) =
         run(path, getConfig())

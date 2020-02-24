@@ -3,13 +3,13 @@ package sample.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Move(val user: User, val x: Int, val y: Int)
+data class Move(val user: User, val x: Int, val y: Int, val gameId: String)
 
 @Serializable
-class Game {
+class Game (val id: String) {
     private val fieldSize = 10
     private val streakSize = 5
-    val field = Array(fieldSize) { Array<User?>(fieldSize) { null } }
+    val field = MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } }
     val moves = mutableListOf<Move>()
     private val lastPlayer: User?
         get() = moves.lastOrNull()?.user

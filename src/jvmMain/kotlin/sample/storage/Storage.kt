@@ -10,7 +10,7 @@ object Storage {
     @Synchronized
     suspend fun startGame() {
         val key = games.size.toString()
-        val game = Game()
+        val game = Game(key)
         games[key] = game
         eventChannel.send(Event.NewGameEvent(game))
     }
