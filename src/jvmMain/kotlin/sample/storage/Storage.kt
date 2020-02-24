@@ -1,7 +1,7 @@
 package sample.storage
 
-import com.kitkot.events.Event
-import com.kitkot.events.eventChannel
+import sample.events.Event
+import sample.events.eventChannel
 
 object Storage {
     val games = HashMap<String, Game>()
