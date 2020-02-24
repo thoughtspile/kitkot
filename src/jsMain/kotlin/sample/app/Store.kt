@@ -2,47 +2,51 @@ package sample.app
 
 import sample.models.*
 import sample.api.Api
-import kotlin.properties.Delegates
+import redux.*
+import kotlin.js.Promise
 
-data class State(var games: List<Game>, var user: User? = null)
-
-class Store {
-    private var observers = listOf<(State) -> Unit>()
-    fun onChange(cb: (State) -> Unit) {
-        observers += cb
+data class AppState(
+    var games: List<Game> = emptyList(),
+    var user: User? = null
+) {
+    fun update(builder: AppState.() -> Unit): AppState {
+        val next = this.copy()
+        next.builder()
+        return next
     }
-    private fun emitChange() = observers.forEach { it(state) }
+}
 
-    var state: State by Delegates.observable(State(games = listOf())) { _, _, _ ->
-        emitChange()
-    }
-    private fun setState(updater: State.() -> Unit) {
-        val nextState = this.state.copy()
-        nextState.updater()
-        state = nextState
-    }
+class Actions: RAction {
+    class SetUser(val user: User): RAction
+    class SetGames(val games: List<Game>): RAction
+    class Move(val move: sample.models.Move): RAction
+}
 
-    fun init() =
-        Api.register().then { data ->
-            setState { user = data }
-        } .then {
-            loadGames()
-        }
-
-    fun loadGames() =
-        Api.loadGames().then { data -> setState { games = data } }
-
-    fun move(move: Api.MovePayload) =
-        Api.move(move)
-
-    fun processMove(move: Move) =
-        setState {
+class StateManager {
+    fun reduce(state: AppState, action: RAction) = when (action) {
+        is Actions.SetUser -> state.update { user = action.user }
+        is Actions.SetGames -> state.update { games = action.games }
+        is Actions.Move -> state.update {
             games = games.map {
-                if (it.id == move.gameId)
+                if (it.id == action.move.gameId)
                     try {
-                        it.processMove(move)
+                        it.processMove(action.move)
                     } catch (err: Exception) {}
                 it
             }
         }
+        else -> state
+    }
+
+    val store = createStore(::reduce, AppState(), rEnhancer())
+    private fun dispatchAsync(p: Promise<RAction>) = p.then { store.dispatch(it) }
+
+    fun init() = dispatchAsync(Api.register().then { Actions.SetUser(it) }).then {
+        loadGames()
+    }
+
+    fun loadGames() = dispatchAsync(Api.loadGames().then { Actions.SetGames(it) })
+
+    fun move(move: Api.MovePayload) = Api.move(move)
+    fun processMove(move: Move) = store.dispatch(Actions.Move(move))
 }

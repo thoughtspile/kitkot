@@ -8,26 +8,27 @@ import kotlinx.html.js.onClickFunction
 import kotlinx.html.style
 import org.w3c.dom.WebSocket
 import react.dom.*
+import redux.state
 import sample.api.WsClient
 
-val store = Store()
+val store = StateManager()
 val wsClient = WsClient()
 
 class App : RComponent<RProps, RState>() {
     override fun componentDidMount() {
         store.init()
-        store.onChange { forceUpdate() }
+        store.store.subscribe { forceUpdate() }
         wsClient.start({ store.processMove(it) }, { store.loadGames() })
     }
 
     override fun RBuilder.render() {
-        store.state.user?.let {
+        store.store.state.user?.let {
             div {
-                +"Привет, ${store.state.user!!.color} ${store.state.user!!.symbol}!"
+                +"Привет, ${store.store.state.user!!.color} ${store.store.state.user!!.symbol}!"
             }
         }
         div("Game-list") {
-            store.state.games.mapIndexed() { i, item ->
+            store.store.state.games.mapIndexed() { i, item ->
                 game(game=item, gameId=i)
             }
         }

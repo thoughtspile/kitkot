@@ -5,8 +5,12 @@
   "dependencies": {
     "@cachet/kotlinx-serialization-runtime": "^0.14.0-rc.2",
     "@fortawesome/fontawesome-free": "^5.12.1",
+    "@jetbrains/kotlin-react-redux": "^5.0.7-pre.91",
+    "@jetbrains/kotlin-redux": "^4.0.0-pre.91",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@jetbrains/gen-idea-libs": "^2.0.0",
