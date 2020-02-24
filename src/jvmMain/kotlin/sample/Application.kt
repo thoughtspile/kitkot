@@ -32,6 +32,7 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.*
 import io.ktor.client.engine.cio.*
 import io.ktor.http.cio.websocket.Frame
+import kotlinx.coroutines.channels.consumeEach
 import java.security.SecureRandom
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -167,9 +168,8 @@ fun Application.module(testing: Boolean = false) {
         }
 
         webSocket("/events") { // this: DefaultWebSocketSession
-            while (true) {
-                val event = eventChannel.receive()
-                outgoing.send(Frame.Text(json.stringify(Event.serializer(), event)))
+            eventChannel.consumeEach {
+                outgoing.send(Frame.Text(json.stringify(Event.serializer(), it)))
             }
         }
     }

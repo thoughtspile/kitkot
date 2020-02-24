@@ -1,5 +1,5 @@
 package sample.events
 
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.BroadcastChannel
 
-val eventChannel = Channel<Event>()
+val eventChannel = BroadcastChannel<Event>(100)
