@@ -1,6 +1,6 @@
 package sample.events
 
-import sample.storage.*
+import sample.models.*
 import kotlinx.serialization.*
 
 enum class EventType { MOVE, NEW_GAME }

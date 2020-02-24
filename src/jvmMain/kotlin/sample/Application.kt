@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.Payload
 import sample.events.Event
 import sample.events.eventChannel
 import sample.storage.*
+import sample.models.*
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.request.*

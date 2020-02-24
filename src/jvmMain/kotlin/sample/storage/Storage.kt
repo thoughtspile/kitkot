@@ -1,6 +1,7 @@
 package sample.storage
 
 import sample.events.Event
+import sample.models.*
 import sample.events.eventChannel
 
 object Storage {

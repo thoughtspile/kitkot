@@ -1,4 +1,4 @@
-package sample.storage
+package sample.models
 
 import kotlinx.serialization.Serializable
 

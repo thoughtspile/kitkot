@@ -2,8 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a980f1df-3544-42f6-ac52-92379208b928" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/kitkot2.jsTest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/kitkot2.jsTest.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/kitkot2.jvmMain.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/kitkot2.jvmMain.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/kitkot2.jvmTest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/kitkot2.jvmTest.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/sample/Sample.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/events/Events.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/sample/events/Events.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Game.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/sample/models/Game.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Storage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Storage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/sample/models/User.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,18 +38,18 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/commonMain/kotlin/sample/models" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.4091954" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/commonMain/kotlin/sample/models" />
+      <recent name="$PROJECT_DIR$/src/commonMain/kotlin" />
+      <recent name="$PROJECT_DIR$/src/commonMain/kotlin/events/sample/events" />
+      <recent name="$PROJECT_DIR$/src/commonMain/kotlin/sample" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/jvmMain/resources" />
-      <recent name="$PROJECT_DIR$/src/jvmMain/kotlin/sample" />
-      <recent name="$PROJECT_DIR$/src/jsMain" />
-      <recent name="$PROJECT_DIR$/src/jsMain/kotlin/sample" />
     </key>
   </component>
   <component name="RunManager">
@@ -75,29 +86,33 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="421" y="157" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1582539394648">
+    <state x="282" y="316" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1582540982659">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="421" y="157" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1366.768@0.0.1366.768" timestamp="1582539394648" />
-    <state width="1324" height="202" key="GridCell.Tab.0.bottom" timestamp="1582540613967">
+    <state x="282" y="316" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1366.768@0.0.1366.768" timestamp="1582540982659" />
+    <state x="421" y="157" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1582541852446">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1582540613967" />
-    <state width="1324" height="202" key="GridCell.Tab.0.center" timestamp="1582540613965">
+    <state x="421" y="157" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1366.768@0.0.1366.768" timestamp="1582541852446" />
+    <state width="1324" height="202" key="GridCell.Tab.0.bottom" timestamp="1582541573380">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1582540613965" />
-    <state width="1324" height="202" key="GridCell.Tab.0.left" timestamp="1582540613963">
+    <state width="1324" height="202" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1582541573380" />
+    <state width="1324" height="202" key="GridCell.Tab.0.center" timestamp="1582541573378">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1582540613963" />
-    <state width="1324" height="202" key="GridCell.Tab.0.right" timestamp="1582540613966">
+    <state width="1324" height="202" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1582541573378" />
+    <state width="1324" height="202" key="GridCell.Tab.0.left" timestamp="1582541573377">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1582540613966" />
-    <state x="171" y="0" key="SettingsEditor" timestamp="1582539396538">
+    <state width="1324" height="202" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1582541573377" />
+    <state width="1324" height="202" key="GridCell.Tab.0.right" timestamp="1582541573379">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="171" y="0" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1582539396538" />
+    <state width="1324" height="202" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1582541573379" />
+    <state x="171" y="0" key="SettingsEditor" timestamp="1582541914196">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="171" y="0" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1582541914196" />
   </component>
 </project>

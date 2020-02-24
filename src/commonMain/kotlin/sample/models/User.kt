@@ -1,7 +1,6 @@
-package sample.storage
+package sample.models
 
 import kotlinx.serialization.Serializable
-import java.awt.Color
 
 val COLORS = listOf(
     "red",
