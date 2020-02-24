@@ -1,4 +1,4 @@
-package api
+package sample.api
 
 import org.w3c.fetch.CORS
 import org.w3c.fetch.RequestInit
@@ -7,7 +7,6 @@ import org.w3c.fetch.Response
 import kotlin.js.Json
 import kotlin.js.Promise
 import kotlin.js.json
-import kotlinx.serialization.*
 
 external fun fetch(url: String, config: RequestInit): Promise<Response>
 
@@ -26,7 +25,7 @@ class HttpClient {
         override var mode = RequestMode.CORS as RequestMode?
     }
     private fun run(path: String, config: RequestInit) = fetch("$host$path", config)
-    private fun <Res> runTyped(path: String, config: RequestInit)
+//    private fun <Res> runTyped(path: String, config: RequestInit)
 
     fun <Res> get(path: String) =
         run(path, getConfig()).then { it.json() as Res }

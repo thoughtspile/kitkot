@@ -1,6 +1,6 @@
-package app
+package sample.app
 
-import api.Api
+import sample.api.Api
 import kotlin.properties.Delegates
 
 interface User {

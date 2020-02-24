@@ -1,7 +1,7 @@
-package api
+package sample.api
 
-import app.Game
-import app.User
+import sample.app.Game
+import sample.app.User
 import kotlin.js.Promise
 
 

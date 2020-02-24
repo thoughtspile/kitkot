@@ -1,11 +1,12 @@
-package app
+package sample.app
 
-import api.Api
+import sample.api.Api
 import kotlin.js.*
 import react.*
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.WebSocket
 import react.dom.*
+
 
 val store = Store()
 
