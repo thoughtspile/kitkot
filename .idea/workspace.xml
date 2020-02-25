@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a980f1df-3544-42f6-ac52-92379208b928" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/utils/ReconnectingWebsocket.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/sample/events/Events.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/sample/events/Events.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/Api.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/Api.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/AutoIncrementStore.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/AutoIncrementStore.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Storage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Storage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/WsClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/WsClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -42,18 +39,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.idea/libraries" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/jsMain/kotlin/sample/utils" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.4091954" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/jsMain/kotlin/sample/utils" />
       <recent name="$PROJECT_DIR$/.idea/libraries" />
       <recent name="$PROJECT_DIR$/src/commonMain/kotlin/sample/models" />
       <recent name="$PROJECT_DIR$/src/commonMain/kotlin" />
       <recent name="$PROJECT_DIR$/src/commonMain/kotlin/events/sample/events" />
-      <recent name="$PROJECT_DIR$/src/commonMain/kotlin/sample" />
     </key>
   </component>
   <component name="RunManager">
@@ -98,30 +95,34 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="421" y="157" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1366.768@0.0.1366.768" timestamp="1582571344774" />
-    <state width="1324" height="202" key="GridCell.Tab.0.bottom" timestamp="1582633878037">
+    <state width="1324" height="202" key="GridCell.Tab.0.bottom" timestamp="1582651430800">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1582633878037" />
+    <state width="1324" height="202" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1582651430800" />
     <state width="1324" height="202" key="GridCell.Tab.0.bottom/0.23.1366.745@0.23.1366.745" timestamp="1582628530458" />
-    <state width="1324" height="202" key="GridCell.Tab.0.center" timestamp="1582633878034">
+    <state width="1324" height="202" key="GridCell.Tab.0.center" timestamp="1582651430791">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1582633878034" />
+    <state width="1324" height="202" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1582651430791" />
     <state width="1324" height="202" key="GridCell.Tab.0.center/0.23.1366.745@0.23.1366.745" timestamp="1582628530452" />
-    <state width="1324" height="202" key="GridCell.Tab.0.left" timestamp="1582633878032">
+    <state width="1324" height="202" key="GridCell.Tab.0.left" timestamp="1582651430789">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1582633878032" />
+    <state width="1324" height="202" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1582651430789" />
     <state width="1324" height="202" key="GridCell.Tab.0.left/0.23.1366.745@0.23.1366.745" timestamp="1582628530446" />
-    <state width="1324" height="202" key="GridCell.Tab.0.right" timestamp="1582633878035">
+    <state width="1324" height="202" key="GridCell.Tab.0.right" timestamp="1582651430796">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state width="1324" height="202" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1582633878035" />
+    <state width="1324" height="202" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1582651430796" />
     <state width="1324" height="202" key="GridCell.Tab.0.right/0.23.1366.745@0.23.1366.745" timestamp="1582628530457" />
     <state x="171" y="0" key="SettingsEditor" timestamp="1582571346290">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="171" y="0" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1582571346290" />
+    <state x="445" y="21" key="refactoring.ChangeSignatureDialog" timestamp="1582653019567">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="445" y="21" key="refactoring.ChangeSignatureDialog/0.0.1366.768@0.0.1366.768" timestamp="1582653019567" />
     <state x="348" y="92" width="670" height="676" key="search.everywhere.popup" timestamp="1582619727414">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
