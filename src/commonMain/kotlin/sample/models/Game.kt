@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Move(val user: User, val x: Int, val y: Int, val gameId: String)
 
 @Serializable
-class Game (val id: String) {
+class Game (val id: String, val createdBy: User, val createdAt: String) {
     private val fieldSize = 10
     private val streakSize = 5
     val field = MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } }
@@ -35,6 +35,9 @@ class Game (val id: String) {
 
         checkFinished(move)
     }
+
+    val players: Set<User>
+        get() = moves.map { it.user }.toSet()
 
     private fun checkFinished(move: Move) {
         if (moves.size === fieldSize * fieldSize) {

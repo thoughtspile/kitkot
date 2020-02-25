@@ -10,39 +10,57 @@ body {
   font-weight: 600;
 }
 
-.App-intro {
-  font-size: large;
-}
-
-.App-ticker {
-  font-size: medium;
-}
-
 .Game-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+    max-width: 100%;
+    display: flex;
 }
 
-.Game-field {
-  display: flex;
-  flex-wrap: wrap;
-  border-left: 1px solid #bbb;
-  border-top: 1px solid #bbb;
+.Game-list-scroller {
+    overflow-x: scroll;
+    border-bottom: 1px solid #bbb;
 }
 
-.Game-field-cell {
-  flex: 0 0 10%;
-  box-sizing: border-box;
-  border: 1px solid #bbb;
-  border-left: none;
-  border-top: none;
+.Game-list-grid {
+    flex-wrap: wrap;
+}
+
+.Game {
+  border-right: 1px solid #bbb;
+}
+
+.Game-finished {
+    opacity: 0.6;
+}
+
+.Game-fake {
+  padding: 12px;
+  width: 140px;
+  min-width: 140px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: color 300ms ease;
+  cursor: pointer;
+}
+.Game-fake:not(:hover) {
+   color: #bbb !important;
 }
 
-.Game-field-cell::after {
-  content: " ";
-  margin-bottom: 100%;
-  display: block;
+.Field {
+  table-layout: fixed;
+  border-spacing: 0;
+}
+
+.Field-mini {
+    margin: 12px;
+    min-width: 140px;
+}
+
+.Field-mini .Field-cell {
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+    line-height: 12px;
+    font-size: 9px;
 }

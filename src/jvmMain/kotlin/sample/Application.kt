@@ -32,6 +32,7 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.*
 import io.ktor.client.engine.cio.*
 import io.ktor.http.cio.websocket.Frame
+import io.ktor.util.pipeline.PipelineContext
 import kotlinx.coroutines.channels.consumeEach
 import java.security.SecureRandom
 
@@ -113,6 +114,11 @@ fun Application.module(testing: Boolean = false) {
         */
     }
 
+    fun PipelineContext<Unit, ApplicationCall>.getUser(): User {
+        val uid = call.principal<UserIdPrincipal>() ?: error("No principal")
+        return User.get(uid.name) ?: error("No such user")
+    }
+
     routing {
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
@@ -133,15 +139,13 @@ fun Application.module(testing: Boolean = false) {
 
         authenticate {
             post("/games") {
-                Storage.startGame()
+                Storage.startGame(getUser())
                 call.respond({})
             }
 
             post("/move") {
                 val data = call.receive<MovePayload>()
-                val uid = call.principal<UserIdPrincipal>() ?: error("No principal")
-                val user = User.get(uid.name) ?: error("No such user")
-                Storage.processMove(data.gameId, Move(user, data.x, data.y, data.gameId))
+                Storage.processMove(data.gameId, Move(getUser(), data.x, data.y, data.gameId))
                 call.respond({})
             }
         }

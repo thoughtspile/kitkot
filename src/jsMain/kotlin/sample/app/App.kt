@@ -8,6 +8,7 @@ import react.dom.*
 import react.redux.provider
 import react.redux.rConnect
 import sample.api.WsClient
+import org.w3c.dom.events.Event
 import sample.utils.*
 
 val store = StateManager()
@@ -20,29 +21,49 @@ class App : RComponent<AppProps, RState>() {
     }
 
     override fun RBuilder.render() {
+        val (ownGames, otherGames) = props.games
+            .sortedByDescending { it.createdAt }
+            .partition { it.players.contains(props.user) || it.createdBy == props.user }
         header(props.user)
-        div("Game-list") {
-            props.games.map { game(game=it, key=it.id) }
+        div("Game-list Game-list-scroller") {
+            myGamesControl(onCreate = { Api.createGame() }, user = props.user)
+            ownGames.map { game(game = it, key = it.id, isMini = true) }
         }
-        button {
-            +"new game"
-            attrs.onClickFunction = { Api.createGame() }
+        div("Game-list Game-list-grid") {
+            otherGames.map { game(game = it, key = it.id, isMini = true) }
         }
     }
 }
 
-fun RBuilder.game(game: Game, key: String = "") {
-    div("Game-field") {
+fun RBuilder.myGamesControl(user: User?, onCreate: (e: Event) -> Unit) {
+    div("Game Game-fake") {
+        attrs.onClickFunction = onCreate
+        attrs.jsStyle {
+            color = user?.pastelColor()
+        }
+        div { +"Your games" }
+        i("fa fa-2x fa-plus") {}
+    }
+}
+
+fun RBuilder.game(game: Game, isMini: Boolean, key: String = "") {
+    div("Game ${"Game-finished".takeIf { game.isFinished } ?: ""}") {
         attrs.key = key
-        game.field.mapIndexed { row, cells ->
-            cells.mapIndexed { col, cell ->
-                span("Game-field-cell") {
-                    cell?.let {
-                        attrs.jsStyle { color = it.pastelColor() }
-                    }
-                    attrs.onClickFunction = { store.move(Api.MovePayload(game.id, row, col)) }
-                    cell?.let {
-                        span("Game-field-symbol ${it.iconClass()}") {}
+        table("Field ${ if (isMini) "Field-mini" else "" }") {
+            tbody {
+                game.field.mapIndexed { row, cells ->
+                    tr {
+                        cells.mapIndexed { col, cell ->
+                            td("Field-cell") {
+                                cell?.let {
+                                    attrs.jsStyle { color = it.pastelColor() }
+                                }
+                                attrs.onClickFunction = { store.move(Api.MovePayload(game.id, row, col)) }
+                                cell?.let {
+                                    span("Field-cell-symbol ${it.iconClass()}") {}
+                                }
+                            }
+                        }
                     }
                 }
             }
