@@ -12,4 +12,7 @@ sealed class Event {
 
     @Serializable
     data class NewGameEvent(val game: Game, override val order: Int) : Event()
+
+    @Serializable
+    data class ConnectEvent(override val order: Int) : Event()
 }

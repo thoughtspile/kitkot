@@ -1,26 +1,24 @@
 package sample.api
 
-import org.w3c.dom.WebSocket
 import sample.events.Event
-import sample.models.*
 import kotlinx.serialization.json.*
 import sample.utils.Reconnecting
 
-class WsClient {
+class WsClient(val processEvent: (e: Event) -> Unit) {
     private val json = Json(JsonConfiguration.Stable)
-    private val webSocket = Reconnecting.WebSocket("ws://localhost:8080/events")
-    private var isStarted = false
+    private var webSocket: Reconnecting.WebSocket? = null
 
-    fun start(onMove: (Move) -> Unit, onNewGame: (Game) -> Unit) {
-        if (isStarted) {
-            return
-        }
-        isStarted = true
+    fun stop() {
+        webSocket?.onmessage = {}
+        webSocket?.close()
+        webSocket = null
+    }
 
-        webSocket.onmessage = {
-            when (val data = json.parse(Event.serializer(), it.data.toString())) {
-                is Event.MoveEvent -> onMove(data.move)
-                is Event.NewGameEvent -> onNewGame(data.game)
+    fun start() {
+        if (webSocket != null) return
+        webSocket = Reconnecting.WebSocket("ws://localhost:8080/events").also {
+            it.onmessage = {
+                processEvent(json.parse(Event.serializer(), it.data.toString()))
             }
         }
     }

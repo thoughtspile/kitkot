@@ -15,7 +15,6 @@ import io.ktor.response.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.http.*
-import io.ktor.gson.*
 import io.ktor.content.*
 import io.ktor.http.content.*
 import io.ktor.sessions.*
@@ -32,6 +31,7 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.*
 import io.ktor.client.engine.cio.*
 import io.ktor.http.cio.websocket.Frame
+import io.ktor.serialization.serialization
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.coroutines.channels.consumeEach
 import java.security.SecureRandom
@@ -90,8 +90,7 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(ContentNegotiation) {
-        gson {
-        }
+        serialization()
     }
 
     val client = HttpClient(CIO) {
@@ -124,10 +123,11 @@ fun Application.module(testing: Boolean = false) {
 
         post("/auth") {
             val user = Storage.createUser()
-            call.respond(mapOf(
-                "token" to tokenManager.sign(user.id.toString()),
-                "user" to user
-            ))
+
+            @Serializable
+            class AuthRes(val token: String, val user: User)
+
+            call.respond(AuthRes(tokenManager.sign(user.id.toString()), user))
         }
 
         get("/games") {
@@ -149,7 +149,11 @@ fun Application.module(testing: Boolean = false) {
 
             get("/events/range/{from}/{to}") {
                 fun intParam(name: String) = call.parameters[name]?.toInt() ?: error("Range limits must be Int")
-                call.respond(Storage.eventRange(intParam("from"), intParam("to")))
+
+                val diff = Storage.eventRange(intParam("from"), intParam("to"))
+                // NOTE: kotlinx.serialization does not accept mixed type lists
+                // Here we serialize list items independently
+                call.respond(diff.map { json.stringify(Event.serializer(), it) })
             }
         }
 
@@ -171,12 +175,13 @@ fun Application.module(testing: Boolean = false) {
             exception<AuthorizationException> { cause ->
                 call.respond(HttpStatusCode.Forbidden)
             }
-
         }
 
-        webSocket("/events") { // this: DefaultWebSocketSession
+        webSocket("/events") {
+            fun Event.toJson() = Frame.Text(json.stringify(Event.serializer(), this))
+            outgoing.send(Event.ConnectEvent(Storage.revision).toJson())
             eventChannel.consumeEach {
-                outgoing.send(Frame.Text(json.stringify(Event.serializer(), it)))
+                outgoing.send(it.toJson())
             }
         }
     }

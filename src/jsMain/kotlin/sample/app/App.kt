@@ -10,14 +10,15 @@ import react.redux.rConnect
 import sample.api.WsClient
 import org.w3c.dom.events.Event
 import sample.utils.*
+import kotlin.browser.window
 
 val store = StateManager()
-val wsClient = WsClient()
+val wsClient = WsClient { store.processEvent(it) }
 
 class App : RComponent<AppProps, RState>() {
     override fun componentDidMount() {
-        store.init()
-        wsClient.start({ store.processMove(it) }, { store.addGame(it) })
+        store.init().then { wsClient.start() }
+        window.asDynamic().wsClient = wsClient
     }
 
     override fun RBuilder.render() {

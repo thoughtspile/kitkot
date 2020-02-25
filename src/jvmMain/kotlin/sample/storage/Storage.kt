@@ -16,6 +16,8 @@ object Storage {
     val games = AutoIncrementStore<Game>("games")
     private val users = AutoIncrementStore<User>("users")
     private val events = AutoIncrementStore<Event>("events")
+    val revision: Int
+        get() = events.items.size
 
     @Synchronized
     private suspend fun emit(buildEvent: (key: Int) -> Event) {
@@ -30,7 +32,7 @@ object Storage {
     @Synchronized
     suspend fun processMove(move: Move) {
         games.update(move.gameId) { processMove(move) }
-        emit{ Event.MoveEvent(move, it) }
+        emit { Event.MoveEvent(move, it) }
     }
 
     fun createUser() = users.insert { index ->

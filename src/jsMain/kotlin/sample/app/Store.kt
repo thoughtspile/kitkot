@@ -1,5 +1,6 @@
 package sample.app
 
+import sample.events.Event
 import sample.models.*
 import sample.api.Api
 import redux.*
@@ -7,7 +8,8 @@ import kotlin.js.Promise
 
 data class AppState(
     var games: List<Game> = emptyList(),
-    var user: User? = null
+    var user: User? = null,
+    var revision: Int = 0
 ) {
     fun update(builder: AppState.() -> Unit): AppState {
         val next = this.copy()
@@ -21,6 +23,7 @@ class Actions: RAction {
     class SetGames(val games: List<Game>): RAction
     class AddGame(val game: Game): RAction
     class Move(val move: sample.models.Move): RAction
+    class SetRevision(val revision: Int): RAction
 }
 
 class StateManager {
@@ -33,6 +36,29 @@ class StateManager {
     fun move(move: AnonymousMove) = Api.move(move)
     fun processMove(move: Move) = store.dispatch(Actions.Move(move))
     fun addGame(game: Game) = store.dispatch(Actions.AddGame(game))
+    fun setRevision(revision: Int) = store.dispatch(Actions.SetRevision(revision))
+    private fun syncChanges(currentRevision: Int) {
+        var storeRevision = store.getState().revision
+        if (currentRevision > storeRevision) {
+            Api.eventRange(storeRevision, currentRevision).then { changes ->
+                console.log(changes)
+                changes.forEach { processEvent(it) }
+            }
+        }
+    }
+
+    fun processEvent(e: Event) {
+        if (e is Event.ConnectEvent) {
+            syncChanges(e.order)
+            return
+        }
+
+        when(e) {
+            is Event.NewGameEvent -> addGame(e.game)
+            is Event.MoveEvent -> processMove(e.move)
+        }
+        setRevision(e.order)
+    }
 }
 
 private fun reduce(state: AppState, action: RAction) = when (action) {
@@ -50,5 +76,6 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
     is Actions.AddGame -> state.update {
         games += action.game
     }
+    is Actions.SetRevision -> state.update { revision = action.revision }
     else -> state
 }

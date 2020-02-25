@@ -2,6 +2,7 @@ package sample.models
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 class AnonymousMove(val gameId: Int, val x: Int, val y: Int)
 
 @Serializable

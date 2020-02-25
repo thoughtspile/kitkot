@@ -5,8 +5,8 @@
       <configuration version="3" platform="JavaScript " allPlatforms="JS []" useProjectSettings="false" isTestModule="true" externalProjectId="kitkot2">
         <dependsOnModuleNames>kitkot2_commonTest</dependsOnModuleNames>
         <sourceSets>
-          <sourceSet>kitkot2.jsMain</sourceSet>
           <sourceSet>kitkot2.commonTest</sourceSet>
+          <sourceSet>kitkot2.jsMain</sourceSet>
           <sourceSet>kitkot2.commonMain</sourceSet>
         </sourceSets>
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>

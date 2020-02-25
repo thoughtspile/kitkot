@@ -10,7 +10,7 @@ fun User.pastelColor() = when (color) {
     COLORS.Yellow -> "#FFBF00"
     COLORS.Green -> "#77DD77"
     COLORS.Cyan -> "#7CB9E8"
-    COLORS.Purple -> "B39EB5"
+    COLORS.Purple -> "#B39EB5"
 }
 
 fun User.iconClass(): String {
