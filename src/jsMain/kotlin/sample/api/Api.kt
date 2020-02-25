@@ -21,4 +21,5 @@ object Api {
     }
     fun createGame() = client.post("/games")
     fun move(data: AnonymousMove) = client.post("/move", data)
+    fun eventRange(from: Int, to: Int) = client.get("/events/range/$from/$to")
 }

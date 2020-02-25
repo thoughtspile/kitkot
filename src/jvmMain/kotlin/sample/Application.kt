@@ -146,6 +146,11 @@ fun Application.module(testing: Boolean = false) {
                 Storage.processMove(Move(getUser(), data.x, data.y, data.gameId))
                 call.respond({})
             }
+
+            get("/events/range/{from}/{to}") {
+                fun intParam(name: String) = call.parameters[name]?.toInt() ?: error("Range limits must be Int")
+                call.respond(Storage.eventRange(intParam("from"), intParam("to")))
+            }
         }
 
         // Static feature. Try to access `/static/ktor_logo.svg`

@@ -1,6 +1,6 @@
 package sample.storage
 
-class AutoIncrementStore<Item>(val name: String) {
+class AutoIncrementStore<Item>(private val name: String) {
     var items = listOf<Item>()
         private set
 

@@ -3,13 +3,13 @@ package sample.events
 import sample.models.*
 import kotlinx.serialization.*
 
-enum class EventType { MOVE, NEW_GAME }
-
 @Serializable
-sealed class Event(val tag: EventType) {
-    @Serializable
-    data class MoveEvent(val move: Move) : Event(EventType.MOVE)
+sealed class Event {
+    abstract val order: Int
 
     @Serializable
-    data class NewGameEvent(val game: Game) : Event(EventType.NEW_GAME)
+    data class MoveEvent(val move: Move, override val order: Int) : Event()
+
+    @Serializable
+    data class NewGameEvent(val game: Game, override val order: Int) : Event()
 }

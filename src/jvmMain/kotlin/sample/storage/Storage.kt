@@ -10,21 +10,27 @@ import java.time.format.DateTimeFormatter
 private val dateFormatter = DateTimeFormatter
     .ofPattern("yyyy-MM-dd HH:mm:ss.SSSZ")
     .withZone(ZoneId.systemDefault())
-private fun isoNow() = dateFormatter.format(Instant.now())
+private fun isoNow(): String = dateFormatter.format(Instant.now())
 
 object Storage {
     val games = AutoIncrementStore<Game>("games")
     private val users = AutoIncrementStore<User>("users")
+    private val events = AutoIncrementStore<Event>("events")
+
+    @Synchronized
+    private suspend fun emit(buildEvent: (key: Int) -> Event) {
+        eventChannel.send(events.insert { buildEvent(it) })
+    }
 
     suspend fun startGame(user: User) {
         val game = games.insert { Game(it, user, isoNow()) }
-        eventChannel.send(Event.NewGameEvent(game))
+        emit { Event.NewGameEvent(game, it) }
     }
 
     @Synchronized
     suspend fun processMove(move: Move) {
         games.update(move.gameId) { processMove(move) }
-        eventChannel.send(Event.MoveEvent(move))
+        emit{ Event.MoveEvent(move, it) }
     }
 
     fun createUser() = users.insert { index ->
@@ -35,4 +41,7 @@ object Storage {
     }
 
     fun getUser(uid: Int) = users.items[uid]
+
+    fun eventRange(from: Int, to: Int) =
+        events.items.subList(maxOf(from, 0), minOf(to, events.items.size - 1))
 }
