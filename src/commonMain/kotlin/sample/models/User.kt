@@ -2,39 +2,43 @@ package sample.models
 
 import kotlinx.serialization.Serializable
 
-val COLORS = listOf(
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "cyan",
-    "blue",
-    "magenta"
-)
-val SYMBOLS = listOf(
-    "paw",
-    "hippo",
-    "dog",
-    "spider",
-    "kiwi-bird",
-    "horse",
-    "frog",
-    "fish",
-    "dragon",
-    "dove",
-    "crow",
-    "cat"
-)
+enum class COLORS {
+    Red,
+    Orange,
+    Yellow,
+    Green,
+    Cyan,
+    Blue,
+    Purple
+}
+enum class SYMBOLS {
+    Paw,
+    Hippo,
+    Dog,
+    Spider,
+    KiwiBird,
+    Horse,
+    Frog,
+    Fish,
+    Dragon,
+    Dove,
+    Crow,
+    Cat
+}
 
 @Serializable
-data class User(val id: String, val symbol: String, val color: String) {
+data class User(val id: String, val symbol: SYMBOLS, val color: COLORS) {
     companion object {
         private val users = mutableMapOf<String, User>()
 
         fun create(): User {
             val index = users.size
             val uid = index.toString()
-            val user = User(uid, SYMBOLS[index % SYMBOLS.size], COLORS[index % COLORS.size])
+            val user = User(
+                uid,
+                SYMBOLS.values().let { it[index % it.size] },
+                COLORS.values().let { it[index % it.size] }
+            )
             users[uid] = user
             return user
         }

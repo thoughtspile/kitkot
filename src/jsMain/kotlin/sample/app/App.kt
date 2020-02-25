@@ -8,6 +8,7 @@ import react.dom.*
 import react.redux.provider
 import react.redux.rConnect
 import sample.api.WsClient
+import sample.utils.*
 
 val store = StateManager()
 val wsClient = WsClient()
@@ -19,13 +20,9 @@ class App : RComponent<AppProps, RState>() {
     }
 
     override fun RBuilder.render() {
-        props.user?.let {
-            div {
-                +"Привет, ${props.user!!.color} ${props.user!!.symbol}!"
-            }
-        }
+        header(props.user)
         div("Game-list") {
-            props.games.map { game(game=it) }
+            props.games.map { game(game=it, key=it.id) }
         }
         button {
             +"new game"
@@ -34,21 +31,32 @@ class App : RComponent<AppProps, RState>() {
     }
 }
 
-fun RBuilder.game(game: Game) {
+fun RBuilder.game(game: Game, key: String = "") {
     div("Game-field") {
-        attrs.key = game.id
+        attrs.key = key
         game.field.mapIndexed { row, cells ->
             cells.mapIndexed { col, cell ->
                 span("Game-field-cell") {
                     cell?.let {
-                        attrs.jsStyle { color = cell.color }
+                        attrs.jsStyle { color = it.pastelColor() }
                     }
                     attrs.onClickFunction = { store.move(Api.MovePayload(game.id, row, col)) }
                     cell?.let {
-                        span("Game-field-symbol fa fa-${cell.symbol}") {}
+                        span("Game-field-symbol ${it.iconClass()}") {}
                     }
                 }
             }
+        }
+    }
+}
+
+fun RBuilder.header(user: User?) {
+    div("Header") {
+        attrs.jsStyle {
+            background = user?.pastelColor()
+        }
+        user?.let {
+            +"Hello, ${it.color} ${it.symbol}!"
         }
     }
 }
