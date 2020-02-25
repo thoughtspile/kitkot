@@ -30,7 +30,7 @@ class StateManager {
     fun init() = dispatchAsync(Api.register().then { Actions.SetUser(it) }).then {
         dispatchAsync(Api.loadGames().then { Actions.SetGames(it) })
     }
-    fun move(move: Api.MovePayload) = Api.move(move)
+    fun move(move: AnonymousMove) = Api.move(move)
     fun processMove(move: Move) = store.dispatch(Actions.Move(move))
     fun addGame(game: Game) = store.dispatch(Actions.AddGame(game))
 }

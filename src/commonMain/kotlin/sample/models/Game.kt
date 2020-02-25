@@ -2,11 +2,13 @@ package sample.models
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class Move(val user: User, val x: Int, val y: Int, val gameId: String)
+class AnonymousMove(val gameId: Int, val x: Int, val y: Int)
 
 @Serializable
-class Game (val id: String, val createdBy: User, val createdAt: String) {
+data class Move(val user: User, val x: Int, val y: Int, val gameId: Int)
+
+@Serializable
+class Game (val id: Int, val createdBy: User, val createdAt: String) {
     private val fieldSize = 10
     private val streakSize = 5
     val field = MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } }

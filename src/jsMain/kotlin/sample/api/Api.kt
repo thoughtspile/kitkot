@@ -20,6 +20,5 @@ object Api {
         json.parse(Game.serializer().list, it)
     }
     fun createGame() = client.post("/games")
-    data class MovePayload(val gameId: String, val x: Int, val y: Int)
-    fun move(data: MovePayload) = client.post("/move", data)
+    fun move(data: AnonymousMove) = client.post("/move", data)
 }

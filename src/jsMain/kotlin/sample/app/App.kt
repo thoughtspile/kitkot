@@ -27,10 +27,10 @@ class App : RComponent<AppProps, RState>() {
         header(props.user)
         div("Game-list Game-list-scroller") {
             myGamesControl(onCreate = { Api.createGame() }, user = props.user)
-            ownGames.map { game(game = it, key = it.id, isMini = true) }
+            ownGames.map { game(game = it, key = it.id.toString(), isMini = true) }
         }
         div("Game-list Game-list-grid") {
-            otherGames.map { game(game = it, key = it.id, isMini = true) }
+            otherGames.map { game(game = it, key = it.id.toString(), isMini = true) }
         }
     }
 }
@@ -58,7 +58,7 @@ fun RBuilder.game(game: Game, isMini: Boolean, key: String = "") {
                                 cell?.let {
                                     attrs.jsStyle { color = it.pastelColor() }
                                 }
-                                attrs.onClickFunction = { store.move(Api.MovePayload(game.id, row, col)) }
+                                attrs.onClickFunction = { store.move(AnonymousMove(game.id, row, col)) }
                                 cell?.let {
                                     span("Field-cell-symbol ${it.iconClass()}") {}
                                 }

@@ -38,8 +38,6 @@ import java.security.SecureRandom
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-class MovePayload(val x: Int, val y: Int, val gameId: String)
-
 class BaseJWT {
     private val secret = SecureRandom().ints(6).toString()
     private val algorithm = Algorithm.HMAC256(secret)
@@ -116,7 +114,7 @@ fun Application.module(testing: Boolean = false) {
 
     fun PipelineContext<Unit, ApplicationCall>.getUser(): User {
         val uid = call.principal<UserIdPrincipal>() ?: error("No principal")
-        return User.get(uid.name) ?: error("No such user")
+        return Storage.getUser(uid.name.toInt())
     }
 
     routing {
@@ -125,15 +123,15 @@ fun Application.module(testing: Boolean = false) {
         }
 
         post("/auth") {
-            val user = User.create()
+            val user = Storage.createUser()
             call.respond(mapOf(
-                "token" to tokenManager.sign(user.id),
+                "token" to tokenManager.sign(user.id.toString()),
                 "user" to user
             ))
         }
 
         get("/games") {
-            call.respond(Storage.games.values)
+            call.respond(Storage.games.items)
         }
 
 
@@ -144,8 +142,8 @@ fun Application.module(testing: Boolean = false) {
             }
 
             post("/move") {
-                val data = call.receive<MovePayload>()
-                Storage.processMove(data.gameId, Move(getUser(), data.x, data.y, data.gameId))
+                val data = call.receive<AnonymousMove>()
+                Storage.processMove(Move(getUser(), data.x, data.y, data.gameId))
                 call.respond({})
             }
         }
