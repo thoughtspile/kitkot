@@ -9,12 +9,12 @@ import kotlin.js.Promise
 data class AppState(
     var games: List<Game> = emptyList(),
     var user: User? = null,
-    var revision: Int = 0
+    var revision: Int = 0,
+    var isOnline: Boolean = false
 ) {
-    fun update(builder: AppState.() -> Unit): AppState {
-        val next = this.copy()
-        next.builder()
-        return next
+    fun update(builder: AppState.() -> Unit) = this.copy().let {
+        it.builder()
+        it
     }
 }
 
@@ -24,6 +24,7 @@ class Actions: RAction {
     class AddGame(val game: Game): RAction
     class Move(val move: sample.models.Move): RAction
     class SetRevision(val revision: Int): RAction
+    class ToggleOnline(): RAction
 }
 
 class StateManager {
@@ -37,6 +38,8 @@ class StateManager {
     fun processMove(move: Move) = store.dispatch(Actions.Move(move))
     fun addGame(game: Game) = store.dispatch(Actions.AddGame(game))
     fun setRevision(revision: Int) = store.dispatch(Actions.SetRevision(revision))
+    fun toggleOnline() = store.dispatch(Actions.ToggleOnline())
+
     private fun syncChanges(currentRevision: Int) {
         var storeRevision = store.getState().revision
         if (currentRevision > storeRevision) {
@@ -65,6 +68,8 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
     is Actions.ApplySnapshot -> state.update {
         games = action.snapshot.games
         revision = action.snapshot.revision
+        // Only start realtime once initial state pulled
+        isOnline = true
     }
     is Actions.Move -> state.update {
         games = games.map {
@@ -79,5 +84,6 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
         games += action.game
     }
     is Actions.SetRevision -> state.update { revision = action.revision }
+    is Actions.ToggleOnline -> state.update { isOnline = !isOnline }
     else -> state
 }

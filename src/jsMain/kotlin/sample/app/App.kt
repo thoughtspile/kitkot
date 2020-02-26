@@ -10,22 +10,24 @@ import react.redux.rConnect
 import sample.api.WsClient
 import org.w3c.dom.events.Event
 import sample.utils.*
-import kotlin.browser.window
 
 val store = StateManager()
 val wsClient = WsClient { store.processEvent(it) }
 
 class App : RComponent<AppProps, RState>() {
     override fun componentDidMount() {
-        store.init().then { wsClient.start() }
-        window.asDynamic().wsClient = wsClient
+        store.init()
+        store.store.subscribe {
+            val state = store.store.getState()
+            if (state.isOnline) wsClient.start() else wsClient.stop()
+        }
     }
 
     override fun RBuilder.render() {
         val (ownGames, otherGames) = props.games
             .sortedByDescending { it.createdAt }
             .partition { it.players.contains(props.user) || it.createdBy == props.user }
-        header(props.user)
+        header(user = props.user, isOnline = props.isOnline, toggleOnline = { store.toggleOnline() })
         div("Game-list Game-list-scroller") {
             myGamesControl(onCreate = { Api.createGame() }, user = props.user)
             ownGames.map { game(game = it, key = it.id.toString(), isMini = true) }
@@ -72,7 +74,7 @@ fun RBuilder.game(game: Game, isMini: Boolean, key: String = "") {
     }
 }
 
-fun RBuilder.header(user: User?) {
+fun RBuilder.header(user: User?, isOnline: Boolean, toggleOnline: (e: Event) -> Unit) {
     div("Header") {
         attrs.jsStyle {
             background = user?.pastelColor()
@@ -80,16 +82,22 @@ fun RBuilder.header(user: User?) {
         user?.let {
             +"Hello, ${it.color} ${it.symbol}!"
         }
+        span {
+            attrs.onClickFunction = toggleOnline
+            +(if (isOnline) "Disconnect" else "Reconnect")
+        }
     }
 }
 
 interface AppProps: RProps {
     var user: User?
     var games: List<Game>
+    var isOnline: Boolean
 }
 val app: RClass<RProps> = rConnect<AppState, RProps, AppProps>({ state, _ ->
     user = state.user
     games = state.games
+    isOnline = state.isOnline
 })(App::class.rClass)
 
 

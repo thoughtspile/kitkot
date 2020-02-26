@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a980f1df-3544-42f6-ac52-92379208b928" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Storage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/storage/Storage.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
