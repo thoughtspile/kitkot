@@ -9,14 +9,11 @@
 }
 
 .Field-mini {
-  padding: 12px;
-  min-width: 164px;
-  transition: background 300ms ease;
-  cursor: pointer;
-}
-
-.Field-mini:hover {
-  background: #eee;
+  margin: 12px;
+  min-width: 140px;
+  min-height: 140px;
+  height: 140px;
+  width: 140px;
 }
 
 .Field-full {
@@ -28,6 +25,7 @@
   height: 12px;
   line-height: 12px;
   font-size: 9px;
+  text-align: center;
 }
 
 .Field-full .Field-cell {

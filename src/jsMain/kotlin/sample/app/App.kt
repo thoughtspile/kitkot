@@ -36,6 +36,7 @@ class App : RComponent<AppProps, RState>() {
         val (ownGames, otherGames) = props.games
             .sortedByDescending { it.createdAt }
             .partition { it.players.contains(props.user) || it.createdBy == props.user }
+        fun joinRandom() = store.dispatch(Actions.FocusGame(otherGames[otherGames.indices.random()].id))
         topBar(
             user = props.user,
             isOnline = props.isOnline,
@@ -46,14 +47,26 @@ class App : RComponent<AppProps, RState>() {
         }
         props.focusedGame?.let { game ->
             div("App-gameScreen") {
-                child(GameView::class) {
-                    attrs.game = game
-                    attrs.isMini = false
-                    attrs.onMove = { mv -> store.dispatch(Actions.move(mv)) }
-                    attrs.user = props.user
+                div ("App-gameScreen-back") {
+                    attrs.onClickFunction = { store.dispatch(Actions.FocusGame(null)) }
+                    i("fa fa-chevron-left") {}
+                    +" All games"
+                }
+                div("App-gameScreen-main") {
+                    child(GameView::class) {
+                        attrs.game = game
+                        attrs.isMini = false
+                        attrs.onMove = { mv -> store.dispatch(Actions.move(mv)) }
+                        attrs.user = props.user
+                    }
                 }
             }
         } ?: div("Game-list Game-list-grid") {
+            div("Game Game-fake") {
+                attrs.onClickFunction = { joinRandom() }
+                div { +"All games" }
+                div { +"Join random!" }
+            }
             otherGames.map { gameThumb(it) }
         }
         toastContainer()
@@ -67,7 +80,7 @@ fun RBuilder.myGamesControl(user: User?, onCreate: (e: Event) -> Unit) {
             color = user?.pastelColor()
         }
         div { +"Your games" }
-        i("fa fa-2x fa-plus") {}
+        i("fa fa-plus Game-fake-plus") {}
     }
 }
 

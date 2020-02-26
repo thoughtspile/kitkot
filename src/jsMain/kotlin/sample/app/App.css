@@ -16,30 +16,66 @@
 }
 
 .Game-list-grid {
+    margin-bottom: 40px;
     flex-wrap: wrap;
 }
+.Game-list-grid .Game {
+    border-bottom: 1px solid #ddd;
+}
 
-.Game-list .Game:not(:last-child) {
+.Game-list .Game {
+  transition: background 300ms ease;
+  cursor: pointer;
+}
+.Game-list .Game:hover {
+  background: #eee;
+}
+
+.Game-list .Game {
   border-right: 1px solid #ddd;
 }
 
 .Game-fake {
   padding: 12px;
-  width: 140px;
-  min-width: 140px;
+  width: 122px;
+  min-width: 122px;
+  height: 140px;
   display: flex;
+  padding-left: 30px;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
   transition: color 300ms ease;
   cursor: pointer;
 }
 .Game-fake:not(:hover) {
    color: #bbb !important;
 }
+.Game-fake-plus {
+  text-align: right;
+}
 
 .App-gameScreen {
-  padding: 40px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-gameScreen-back {
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  color: #bbb;
+  transition: color 300ms ease;
+}
+.App-gameScreen-back:hover {
+  color: #000;
+}
+
+.App-gameScreen-main {
+  padding: 20px;
+  padding-bottom: 40px;
   flex-grow: 1;
   display: flex;
   align-items: center;

@@ -88,6 +88,9 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
     }
     is Actions.AddGame -> state.update {
         games += action.game
+        if (state.user == action.game.createdBy) {
+            focusedGame = action.game.id
+        }
     }
     is Actions.SetRevision -> state.update { revision = action.revision }
     is Actions.ToggleOnline -> state.update { isOnline = !isOnline }
