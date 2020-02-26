@@ -15,7 +15,7 @@ interface GameProps : RProps {
     var onClick: (() -> Unit)?
 }
 
-class GameView : RComponent<GameProps, RState>() {
+class GameView : RPureComponent<GameProps, RState>() {
     override fun RBuilder.render() {
         div("Game ${"Game-finished".takeIf { props.game.isFinished } ?: ""}") {
             attrs.onClickFunction = { props.onClick?.invoke() }

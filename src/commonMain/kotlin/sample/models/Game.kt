@@ -9,12 +9,18 @@ class AnonymousMove(val gameId: Int, val x: Int, val y: Int)
 @Serializable
 data class Move(val user: User, val x: Int, val y: Int, val gameId: Int)
 
+// Data class trickery allows immutable copy() for react pure
 @Serializable
-class Game (val id: Int, val createdBy: User, val createdAt: String) {
-    private val fieldSize = 10
+data class Game (
+    val id: Int,
+    val createdBy: User,
+    val createdAt: String,
+    private val fieldSize: Int = 10,
+    val field: MutableList<MutableList<User?>> =
+        MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } },
+    val moves: MutableList<Move> = mutableListOf()
+) {
     private val streakSize = 5
-    val field = MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } }
-    val moves = mutableListOf<Move>()
     private val lastPlayer: User?
         get() = moves.lastOrNull()?.user
 
