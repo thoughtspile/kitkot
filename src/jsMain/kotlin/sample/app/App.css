@@ -2,14 +2,6 @@ body {
   text-align: center;
 }
 
-.Header {
-  padding: 30px;
-  color: white;
-  text-align: left;
-  font-size: 2rem;
-  font-weight: 600;
-}
-
 .Game-list {
     max-width: 100%;
     display: flex;

@@ -1,0 +1,22 @@
+.TopBar {
+  padding: 30px;
+  color: white;
+  display: flex;
+  align-items: baseline;
+}
+
+.TopBar-title {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.TopBar-online {
+  opacity: 0.6;
+  transition: opacity 300ms ease;
+  cursor: pointer;
+}
+.TopBar-online:hover {
+  opacity: 1;
+}

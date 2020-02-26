@@ -10,6 +10,7 @@ import react.redux.rConnect
 import sample.api.WsClient
 import org.w3c.dom.events.Event
 import sample.utils.*
+import sample.components.topBar
 
 val store = StateManager()
 val wsClient = WsClient { store.processEvent(it) }
@@ -27,7 +28,10 @@ class App : RComponent<AppProps, RState>() {
         val (ownGames, otherGames) = props.games
             .sortedByDescending { it.createdAt }
             .partition { it.players.contains(props.user) || it.createdBy == props.user }
-        header(user = props.user, isOnline = props.isOnline, toggleOnline = { store.toggleOnline() })
+        topBar(
+            user = props.user,
+            isOnline = props.isOnline,
+            toggleOnline = { store.toggleOnline() })
         div("Game-list Game-list-scroller") {
             myGamesControl(onCreate = { Api.createGame() }, user = props.user)
             ownGames.map { game(game = it, key = it.id.toString(), isMini = true) }
@@ -70,21 +74,6 @@ fun RBuilder.game(game: Game, isMini: Boolean, key: String = "") {
                     }
                 }
             }
-        }
-    }
-}
-
-fun RBuilder.header(user: User?, isOnline: Boolean, toggleOnline: (e: Event) -> Unit) {
-    div("Header") {
-        attrs.jsStyle {
-            background = user?.pastelColor()
-        }
-        user?.let {
-            +"Hello, ${it.color} ${it.symbol}!"
-        }
-        span {
-            attrs.onClickFunction = toggleOnline
-            +(if (isOnline) "Disconnect" else "Reconnect")
         }
     }
 }

@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a980f1df-3544-42f6-ac52-92379208b928" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/TopBar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/TopBar.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -37,18 +40,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/jsMain/kotlin/sample/utils" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/jsMain/kotlin/sample/components" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.4091954" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/jsMain/kotlin/sample/components" />
       <recent name="$PROJECT_DIR$/src/jsMain/kotlin/sample/utils" />
       <recent name="$PROJECT_DIR$/.idea/libraries" />
       <recent name="$PROJECT_DIR$/src/commonMain/kotlin/sample/models" />
       <recent name="$PROJECT_DIR$/src/commonMain/kotlin" />
-      <recent name="$PROJECT_DIR$/src/commonMain/kotlin/events/sample/events" />
     </key>
   </component>
   <component name="RunManager">
