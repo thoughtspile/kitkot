@@ -1,0 +1,47 @@
+.Game-finished {
+    opacity: 0.6;
+}
+
+.Field {
+  table-layout: fixed;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.Field-mini {
+  padding: 12px;
+  min-width: 164px;
+  transition: background 300ms ease;
+  cursor: pointer;
+}
+
+.Field-mini:hover {
+  background: #eee;
+}
+
+.Field-full {
+  width: 320px;
+}
+
+.Field-mini .Field-cell {
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+  font-size: 9px;
+}
+
+.Field-full .Field-cell {
+  border: 1px solid #ddd;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 28px;
+}
+
+.Field-cell-ghost {
+  opacity: 0;
+}
+
+.Field-cell:hover .Field-cell-ghost {
+  opacity: 0.3;
+}

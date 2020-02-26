@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a980f1df-3544-42f6-ac52-92379208b928" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/userIcon/UserIcon.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/sample/models/Game.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/sample/models/Game.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/game/Game.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/game/Game.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/game/Game.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/game/Game.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,10 +90,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="282" y="316" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1582540982659">
+    <state x="282" y="316" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1582726927394">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="282" y="316" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1366.768@0.0.1366.768" timestamp="1582540982659" />
+    <state x="282" y="316" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1366.768@0.0.1366.768" timestamp="1582726927394" />
     <state x="421" y="157" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1582706763796">
       <screen x="0" y="0" width="1366" height="768" />
     </state>

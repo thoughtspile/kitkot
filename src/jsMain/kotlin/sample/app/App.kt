@@ -44,11 +44,14 @@ class App : RComponent<AppProps, RState>() {
             myGamesControl(onCreate = { Api.createGame() }, user = props.user)
             ownGames.map { gameThumb(it) }
         }
-        props.focusedGame?.let {game ->
-            child(GameView::class) {
-                attrs.game = game
-                attrs.isMini = true
-                attrs.onMove = { mv -> store.dispatch(Actions.move(mv)) }
+        props.focusedGame?.let { game ->
+            div("App-gameScreen") {
+                child(GameView::class) {
+                    attrs.game = game
+                    attrs.isMini = false
+                    attrs.onMove = { mv -> store.dispatch(Actions.move(mv)) }
+                    attrs.user = props.user
+                }
             }
         } ?: div("Game-list Game-list-grid") {
             otherGames.map { gameThumb(it) }
