@@ -58,7 +58,7 @@ object Actions: RAction {
     private fun syncChanges(currentRevision: Int) = thunkify<AppState> { dispatch, getState ->
         val storeRevision = getState().revision
         if (currentRevision > storeRevision) {
-            Api.eventRange(storeRevision, currentRevision).then { changes ->
+            Api.eventRange(storeRevision + 1, currentRevision).then { changes ->
                 changes.forEach { dispatch(processEvent(it)) }
             }
         }

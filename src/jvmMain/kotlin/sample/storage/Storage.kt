@@ -13,11 +13,11 @@ private val dateFormatter = DateTimeFormatter
 private fun isoNow(): String = dateFormatter.format(Instant.now())
 
 object Storage {
-    val games = AutoIncrementStore<Game>("games")
+    private val games = AutoIncrementStore<Game>("games")
     private val users = AutoIncrementStore<User>("users")
     private val events = AutoIncrementStore<Event>("events")
     val revision: Int
-        get() = events.items.size
+        get() = events.items.size - 1
 
     val snapshot: StateSnapshot
         get() = StateSnapshot(games.items, revision)
