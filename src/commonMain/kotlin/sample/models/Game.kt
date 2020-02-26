@@ -2,6 +2,7 @@ package sample.models
 
 import kotlinx.serialization.Serializable
 import sample.errors.IllegalMoveException
+import kotlin.math.max
 
 @Serializable
 class AnonymousMove(val gameId: Int, val x: Int, val y: Int)
@@ -67,15 +68,16 @@ data class Game (
             return
         }
         val (user, x, y) = move
-        val streak = (-streakSize + 1) until streakSize
+        val streak = ((-streakSize + 1) until streakSize)
         isFinished = listOf(1 to 0, 0 to 1, 1 to 1, 1 to -1).any { (dx, dy) ->
             streak.map {
                 x + dx * it to y + dy * it
             } .filter { (x, y) ->
                 isLegalPos(x, y)
-            } .fold(0) { streak, (x, y) ->
-                if (field[x][y] == user) streak + 1 else 0
-            } >= streakSize
+            }.fold(0 to 0) { (best, prev), (x, y) ->
+                val cur = if (field[x][y] == user) prev + 1 else 0
+                max(best, cur) to cur
+            }.first >= streakSize
         }
         if (isFinished) {
             winner = user
