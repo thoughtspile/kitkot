@@ -11,13 +11,14 @@ import sample.utils.pastelColor
 interface GameProps : RProps {
     var game: Game
     var isMini: Boolean
-    var key: String
     var onMove: ((move: AnonymousMove) -> Unit)?
+    var onClick: (() -> Unit)?
 }
 
-class GameView : RPureComponent<GameProps, RState>() {
+class GameView : RComponent<GameProps, RState>() {
     override fun RBuilder.render() {
         div("Game ${"Game-finished".takeIf { props.game.isFinished } ?: ""}") {
+            attrs.onClickFunction = { props.onClick?.invoke() }
             table("Field ${ if (props.isMini) "Field-mini" else "" }") {
                 tbody {
                     props.game.field.mapIndexed { row, cells ->
@@ -39,10 +40,4 @@ class GameView : RPureComponent<GameProps, RState>() {
             }
         }
     }
-}
-
-fun RBuilder.gameView(game: Game, key: String, isMini: Boolean = false) = child(GameView::class) {
-    attrs.game = game
-    attrs.key = key
-    attrs.isMini = isMini
 }

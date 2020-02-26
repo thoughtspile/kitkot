@@ -13,7 +13,8 @@ data class AppState(
     var games: List<Game> = emptyList(),
     var user: User? = null,
     var revision: Int = 0,
-    var isOnline: Boolean = false
+    var isOnline: Boolean = false,
+    var focusedGame: Int? = null
 ) {
     fun update(builder: AppState.() -> Unit) = this.copy().let {
         it.builder()
@@ -30,6 +31,7 @@ object Actions: RAction {
     class SetRevision(val revision: Int): RAction
     class ToggleOnline: RAction
     class Error(val message: String?): RAction
+    class FocusGame(val id: Int?): RAction
 
     // Thunks
     fun init() = pThunkify { dispatch ->
@@ -90,6 +92,7 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
     }
     is Actions.SetRevision -> state.update { revision = action.revision }
     is Actions.ToggleOnline -> state.update { isOnline = !isOnline }
+    is Actions.FocusGame -> state.update { focusedGame = action.id }
     else -> state
 }
 

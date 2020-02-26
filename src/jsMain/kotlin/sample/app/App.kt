@@ -9,11 +9,10 @@ import react.redux.provider
 import react.redux.rConnect
 import sample.api.WsClient
 import org.w3c.dom.events.Event
+import sample.components.game.GameView
 import sample.utils.*
 import sample.components.topBar
-import kotlin.browser.window
 import sample.components.reactToastify.*
-import sample.components.game.gameView
 
 val store = createStore { Toast.Show.error(it ?: "Unknown error") }
 val wsClient = WsClient { store.dispatch(Actions.processEvent(it)) }
@@ -25,7 +24,12 @@ class App : RComponent<AppProps, RState>() {
             val state = store.getState()
             if (state.isOnline) wsClient.start() else wsClient.stop()
         }
-        window.asDynamic().toast = Toast
+    }
+
+    private fun RBuilder.gameThumb(game: Game) = child(GameView::class) {
+        attrs.game = game
+        attrs.isMini = true
+        attrs.onClick = { store.dispatch(Actions.FocusGame(game.id)) }
     }
 
     override fun RBuilder.render() {
@@ -38,10 +42,16 @@ class App : RComponent<AppProps, RState>() {
             toggleOnline = { store.dispatch(Actions.ToggleOnline()) })
         div("Game-list Game-list-scroller") {
             myGamesControl(onCreate = { Api.createGame() }, user = props.user)
-            ownGames.map { gameView(it, key = it.id.toString(), isMini = true) }
+            ownGames.map { gameThumb(it) }
         }
-        div("Game-list Game-list-grid") {
-            otherGames.map { gameView(it, key = it.id.toString(), isMini = true) }
+        props.focusedGame?.let {game ->
+            child(GameView::class) {
+                attrs.game = game
+                attrs.isMini = true
+                attrs.onMove = { mv -> store.dispatch(Actions.move(mv)) }
+            }
+        } ?: div("Game-list Game-list-grid") {
+            otherGames.map { gameThumb(it) }
         }
         toastContainer()
     }
@@ -62,11 +72,13 @@ interface AppProps: RProps {
     var user: User?
     var games: List<Game>
     var isOnline: Boolean
+    var focusedGame: Game?
 }
 val app: RClass<RProps> = rConnect<AppState, RProps, AppProps>({ state, _ ->
     user = state.user
     games = state.games
     isOnline = state.isOnline
+    focusedGame = state.games.find { it.id == state.focusedGame }
 })(App::class.rClass)
 
 
