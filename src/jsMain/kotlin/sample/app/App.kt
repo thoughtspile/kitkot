@@ -36,7 +36,9 @@ class App : RComponent<AppProps, RState>() {
         val (ownGames, otherGames) = props.games
             .sortedByDescending { it.createdAt }
             .partition { it.players.contains(props.user) || it.createdBy == props.user }
-        fun joinRandom() = store.dispatch(Actions.FocusGame(otherGames[otherGames.indices.random()].id))
+        val joinableGames = otherGames.filter { !it.isFinished }
+        fun joinRandom() = store.dispatch(Actions.FocusGame(joinableGames[joinableGames.indices.random()].id))
+
         topBar(
             user = props.user,
             isOnline = props.isOnline,
@@ -63,9 +65,11 @@ class App : RComponent<AppProps, RState>() {
             }
         } ?: div("Game-list Game-list-grid") {
             div("Game Game-fake") {
-                attrs.onClickFunction = { joinRandom() }
                 div { +"All games" }
-                div { +"Join random!" }
+                if (joinableGames.isNotEmpty()) {
+                    attrs.onClickFunction = { joinRandom() }
+                    div { +"Join random!" }
+                }
             }
             otherGames.map { gameThumb(it) }
         }
