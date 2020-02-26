@@ -14,14 +14,14 @@ import sample.components.topBar
 import kotlin.browser.window
 import sample.components.reactToastify.*
 
-val store = StateManager(onError = { Toast.Show.error(it ?: "Unknown error") })
-val wsClient = WsClient { store.processEvent(it) }
+val store = createStore { Toast.Show.error(it ?: "Unknown error") }
+val wsClient = WsClient { store.dispatch(Actions.processEvent(it)) }
 
 class App : RComponent<AppProps, RState>() {
     override fun componentDidMount() {
-        store.init()
-        store.store.subscribe {
-            val state = store.store.getState()
+        store.dispatch(Actions.init())
+        store.subscribe {
+            val state = store.getState()
             if (state.isOnline) wsClient.start() else wsClient.stop()
         }
         window.asDynamic().toast = Toast
@@ -34,7 +34,7 @@ class App : RComponent<AppProps, RState>() {
         topBar(
             user = props.user,
             isOnline = props.isOnline,
-            toggleOnline = { store.toggleOnline() })
+            toggleOnline = { store.dispatch(Actions.toggleOnline()) })
         div("Game-list Game-list-scroller") {
             myGamesControl(onCreate = { Api.createGame() }, user = props.user)
             ownGames.map { game(game = it, key = it.id.toString(), isMini = true) }
@@ -69,7 +69,7 @@ fun RBuilder.game(game: Game, isMini: Boolean, key: String = "") {
                                 cell?.let {
                                     attrs.jsStyle { color = it.pastelColor() }
                                 }
-                                attrs.onClickFunction = { store.move(AnonymousMove(game.id, row, col)) }
+                                attrs.onClickFunction = { store.dispatch(Actions.move(AnonymousMove(game.id, row, col))) }
                                 cell?.let {
                                     span("Field-cell-symbol ${it.iconClass()}") {}
                                 }
@@ -94,4 +94,4 @@ val app: RClass<RProps> = rConnect<AppState, RProps, AppProps>({ state, _ ->
 })(App::class.rClass)
 
 
-fun RBuilder.app() = provider(store.store) { app {} }
+fun RBuilder.app() = provider(store) { app {} }

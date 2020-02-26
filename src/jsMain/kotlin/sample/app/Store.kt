@@ -4,7 +4,10 @@ import sample.events.Event
 import sample.models.*
 import sample.api.Api
 import redux.*
+import sample.utils.RThunk
 import kotlin.js.Promise
+import sample.utils.rThunk
+import sample.utils.thunkify
 
 data class AppState(
     var games: List<Game> = emptyList(),
@@ -18,69 +21,52 @@ data class AppState(
     }
 }
 
-class Actions: RAction {
+object Actions: RAction {
+    // Atomic actions
     class SetUser(val user: User): RAction
     class ApplySnapshot(val snapshot: StateSnapshot): RAction
     class AddGame(val game: Game): RAction
     class Move(val move: sample.models.Move): RAction
     class SetRevision(val revision: Int): RAction
-    class ToggleOnline(): RAction
+    class ToggleOnline: RAction
     class Error(val message: String?): RAction
-}
 
-class StateManager(val onError: (message: String?) -> Unit) {
-    private fun notifyOnError() =
-        applyMiddleware<AppState, RAction, WrapperAction, RAction, WrapperAction>(
-            { _ ->
-                { next ->
-                    { action ->
-                        if (action is Actions.Error) onError(action.message)
-                        next(action)
-                    }
-                }
-            }
-        )
-    val store = createStore(
-        ::reduce,
-        AppState(),
-        compose(notifyOnError(), rEnhancer()))
-    private fun dispatchAsync(p: Promise<RAction>) = p
-        .then { it?.let { store.dispatch(it) } }
-        .catch { store.dispatch(Actions.Error(it.message)) }
-    private fun dispatchAsync(p: Promise<Unit>) = p
-        .catch { store.dispatch(Actions.Error(it.message)) }
-
-    fun init() = dispatchAsync(Api.register().then { Actions.SetUser(it) }).then {
-        dispatchAsync(Api.loadState().then { Actions.ApplySnapshot(it) })
+    // Thunks
+    fun init() = pThunkify { dispatch ->
+        Api.register()
+            .then { dispatch(SetUser(it)) }
+            .then { Api.loadState() }
+            .then { dispatch(ApplySnapshot(it)) }
     }
-    fun move(move: AnonymousMove) = dispatchAsync(Api.move(move).then {})
-    fun processMove(move: Move) = store.dispatch(Actions.Move(move))
-    fun addGame(game: Game) = store.dispatch(Actions.AddGame(game))
-    fun setRevision(revision: Int) = store.dispatch(Actions.SetRevision(revision))
-    fun toggleOnline() = store.dispatch(Actions.ToggleOnline())
 
-    private fun syncChanges(currentRevision: Int) {
-        var storeRevision = store.getState().revision
+    fun move(move: AnonymousMove) = pThunkify { Api.move(move) }
+
+    fun processEvent(e: Event): RThunk = thunkify { dispatch ->
+        if (e is Event.ConnectEvent) {
+            syncChanges(e.order)
+        } else {
+            when(e) {
+                is Event.NewGameEvent -> dispatch(AddGame(e.game))
+                is Event.MoveEvent -> dispatch(Move(e.move))
+            }
+            dispatch(SetRevision(e.order))
+        }
+    }
+
+    private fun syncChanges(currentRevision: Int) = thunkify<AppState> { _, getState ->
+        val storeRevision = getState().revision
         if (currentRevision > storeRevision) {
             Api.eventRange(storeRevision + 1, currentRevision).then { changes ->
                 changes.forEach { processEvent(it) }
             }
         }
     }
-
-    fun processEvent(e: Event) {
-        if (e is Event.ConnectEvent) {
-            syncChanges(e.order)
-            return
-        }
-
-        when(e) {
-            is Event.NewGameEvent -> addGame(e.game)
-            is Event.MoveEvent -> processMove(e.move)
-        }
-        setRevision(e.order)
-    }
 }
+
+fun createStore(onError: (message: String?) -> Unit) = createStore(
+    ::reduce,
+    AppState(),
+    compose(rThunk(), notifyOnError<AppState>(onError), rEnhancer()))
 
 private fun reduce(state: AppState, action: RAction) = when (action) {
     is Actions.SetUser -> state.update { user = action.user }
@@ -106,3 +92,17 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
     is Actions.ToggleOnline -> state.update { isOnline = !isOnline }
     else -> state
 }
+
+private fun pThunkify(thunk: ((RAction) -> WrapperAction) -> Promise<Any?>) = thunkify { dispatch ->
+    thunk(dispatch).catch { dispatch(Actions.Error(it.message)) }
+}
+
+private fun <S> notifyOnError(onError: (message: String?) -> Unit) =
+    applyMiddleware<S, RAction, WrapperAction, RAction, WrapperAction>({
+        { next ->
+            { action ->
+                if (action is Actions.Error) onError(action.message)
+                next(action)
+            }
+        }
+    })
