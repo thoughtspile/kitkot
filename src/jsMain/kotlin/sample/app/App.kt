@@ -13,6 +13,7 @@ import sample.utils.*
 import sample.components.topBar
 import kotlin.browser.window
 import sample.components.reactToastify.*
+import sample.components.game.gameView
 
 val store = createStore { Toast.Show.error(it ?: "Unknown error") }
 val wsClient = WsClient { store.dispatch(Actions.processEvent(it)) }
@@ -34,13 +35,13 @@ class App : RComponent<AppProps, RState>() {
         topBar(
             user = props.user,
             isOnline = props.isOnline,
-            toggleOnline = { store.dispatch(Actions.toggleOnline()) })
+            toggleOnline = { store.dispatch(Actions.ToggleOnline()) })
         div("Game-list Game-list-scroller") {
             myGamesControl(onCreate = { Api.createGame() }, user = props.user)
-            ownGames.map { game(game = it, key = it.id.toString(), isMini = true) }
+            ownGames.map { gameView(it, key = it.id.toString(), isMini = true) }
         }
         div("Game-list Game-list-grid") {
-            otherGames.map { game(game = it, key = it.id.toString(), isMini = true) }
+            otherGames.map { gameView(it, key = it.id.toString(), isMini = true) }
         }
         toastContainer()
     }
@@ -54,31 +55,6 @@ fun RBuilder.myGamesControl(user: User?, onCreate: (e: Event) -> Unit) {
         }
         div { +"Your games" }
         i("fa fa-2x fa-plus") {}
-    }
-}
-
-fun RBuilder.game(game: Game, isMini: Boolean, key: String = "") {
-    div("Game ${"Game-finished".takeIf { game.isFinished } ?: ""}") {
-        attrs.key = key
-        table("Field ${ if (isMini) "Field-mini" else "" }") {
-            tbody {
-                game.field.mapIndexed { row, cells ->
-                    tr {
-                        cells.mapIndexed { col, cell ->
-                            td("Field-cell") {
-                                cell?.let {
-                                    attrs.jsStyle { color = it.pastelColor() }
-                                }
-                                attrs.onClickFunction = { store.dispatch(Actions.move(AnonymousMove(game.id, row, col))) }
-                                cell?.let {
-                                    span("Field-cell-symbol ${it.iconClass()}") {}
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
