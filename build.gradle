@@ -76,14 +76,9 @@ kotlin {
     }
 }
 
-jvmJar {
-    dependsOn(jsBrowserWebpack)
-    from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
-}
-
-task run(type: JavaExec, dependsOn: [jvmJar]) {
+task run(type: JavaExec) {
     group = "application"
-    main = "sample.SampleJvmKt"
+    main = "sample.ApplicationKt"
     classpath(configurations.jvmRuntimeClasspath, jvmJar)
     args = []
 }
