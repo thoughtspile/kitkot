@@ -138,13 +138,13 @@ fun Application.module(testing: Boolean = false) {
         authenticate {
             post("/games") {
                 Storage.startGame(getUser())
-                call.respond({})
+                call.respond(mapOf("ok" to true))
             }
 
             post("/move") {
                 val data = call.receive<AnonymousMove>()
                 Storage.processMove(Move(getUser(), data.x, data.y, data.gameId))
-                call.respond({})
+                call.respond(mapOf("ok" to true))
             }
 
             get("/events/range/{from}/{to}") {
