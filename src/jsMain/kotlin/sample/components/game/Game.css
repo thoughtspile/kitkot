@@ -1,3 +1,14 @@
+.Game {
+  position: relative;
+}
+
+.Game-overlay {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  color: #bbb;
+}
+
 .Game-finished {
     opacity: 0.6;
 }

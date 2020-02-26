@@ -44,6 +44,16 @@ class GameView : RPureComponent<GameProps, RState>() {
                     }
                 }
             }
+            if (props.onMove == null)
+                div("Game-overlay") {
+                    div { +"Players: ${props.game.players.size}"}
+                    props.game.winner?.let {
+                        div {
+                            +"Winner: "
+                            userIcon(it)
+                        }
+                    } ?: if (props.game.isFinished) div { +"Draw" }
+                }
         }
     }
 }
