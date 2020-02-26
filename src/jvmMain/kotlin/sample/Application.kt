@@ -130,8 +130,8 @@ fun Application.module(testing: Boolean = false) {
             call.respond(AuthRes(tokenManager.sign(user.id.toString()), user))
         }
 
-        get("/games") {
-            call.respond(Storage.games.items)
+        get("/state") {
+            call.respond(Storage.snapshot)
         }
 
 

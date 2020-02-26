@@ -19,6 +19,9 @@ object Storage {
     val revision: Int
         get() = events.items.size
 
+    val snapshot: StateSnapshot
+        get() = StateSnapshot(games.items, revision)
+
     @Synchronized
     private suspend fun emit(buildEvent: (key: Int) -> Event) {
         eventChannel.send(events.insert { buildEvent(it) })

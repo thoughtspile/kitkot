@@ -20,7 +20,7 @@ data class AppState(
 
 class Actions: RAction {
     class SetUser(val user: User): RAction
-    class SetGames(val games: List<Game>): RAction
+    class ApplySnapshot(val snapshot: StateSnapshot): RAction
     class AddGame(val game: Game): RAction
     class Move(val move: sample.models.Move): RAction
     class SetRevision(val revision: Int): RAction
@@ -31,7 +31,7 @@ class StateManager {
     private fun dispatchAsync(p: Promise<RAction>) = p.then { store.dispatch(it) }
 
     fun init() = dispatchAsync(Api.register().then { Actions.SetUser(it) }).then {
-        dispatchAsync(Api.loadGames().then { Actions.SetGames(it) })
+        dispatchAsync(Api.loadState().then { Actions.ApplySnapshot(it) })
     }
     fun move(move: AnonymousMove) = Api.move(move)
     fun processMove(move: Move) = store.dispatch(Actions.Move(move))
@@ -63,7 +63,10 @@ class StateManager {
 
 private fun reduce(state: AppState, action: RAction) = when (action) {
     is Actions.SetUser -> state.update { user = action.user }
-    is Actions.SetGames -> state.update { games = action.games }
+    is Actions.ApplySnapshot -> state.update {
+        games = action.snapshot.games
+        revision = action.snapshot.revision
+    }
     is Actions.Move -> state.update {
         games = games.map {
             if (it.id == action.move.gameId)

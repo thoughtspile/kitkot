@@ -3,7 +3,6 @@ package sample.api
 import kotlinx.serialization.Serializable
 import sample.models.*
 import kotlinx.serialization.json.*
-import kotlinx.serialization.list
 import sample.events.Event
 
 @Serializable
@@ -17,8 +16,8 @@ object Api {
         client.token = data.token
         data.user
     }
-    fun loadGames() = client.get("/games").then {
-        json.parse(Game.serializer().list, it)
+    fun loadState() = client.get("/state").then {
+        json.parse(StateSnapshot.serializer(), it)
     }
     fun createGame() = client.post("/games")
     fun move(data: AnonymousMove) = client.post("/move", data)
