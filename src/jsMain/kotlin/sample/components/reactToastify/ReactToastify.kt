@@ -2,7 +2,12 @@ package sample.components.reactToastify
 
 import react.*
 
-interface ToastProps: RProps
+interface ToastProps: RProps {
+    var position: String?
+    var autoClose: Int?
+    var hideProgressBar: Boolean?
+    var newestOnTop: Boolean?
+}
 
 @JsModule("react-toastify")
 external object Toast {
@@ -22,4 +27,9 @@ external object Toast {
 }
 
 
-fun RBuilder.toastContainer() = child(Toast.Container::class) {}.also { console.log(Toast) }
+fun RBuilder.toastContainer() = child(Toast.Container::class) {
+    attrs.autoClose = 2000
+    attrs.position = "bottom-center"
+    attrs.hideProgressBar = true
+    attrs.newestOnTop = true
+}

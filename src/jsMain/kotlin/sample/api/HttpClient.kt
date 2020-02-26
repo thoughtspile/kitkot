@@ -25,14 +25,12 @@ class HttpClient {
         override var body = body?.let { JSON.stringify(body) } ?: undefined
         override var mode = RequestMode.CORS as RequestMode?
     }
-    private fun run(path: String, config: RequestInit) = fetch("$host$path", config).then {
-        it.text()
-//            .then {res ->
-//                if (res.ok)
-//                    res.text()
-//                else
-//                    res.json().then { Promise.reject(Throwable((it as ErrorMessage).message)) }
-//            }
+    private fun run(path: String, config: RequestInit) = fetch("$host$path", config).then { res ->
+        if (res.ok)
+            res.text()
+        else
+            // XXX: These casts are nasty, but everything else seems to break typing
+            res.json().then { Promise.reject(Throwable(it.asDynamic().message as String)).asDynamic() }
     }
 //    private fun <Res> runTyped(path: String, config: RequestInit)
 
