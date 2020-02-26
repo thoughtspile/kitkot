@@ -9,19 +9,25 @@ class AnonymousMove(val gameId: Int, val x: Int, val y: Int)
 @Serializable
 data class Move(val user: User, val x: Int, val y: Int, val gameId: Int)
 
+// NOTE:
+// private val fieldSize: Int = 10,
+// val field: MutableList<MutableList<User?>> =
+//    MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } },
+// Did not compile to JS properly
+private const val fieldSize = 10
+
 // Data class trickery allows immutable copy() for react pure
 @Serializable
 data class Game (
     val id: Int,
     val createdBy: User,
     val createdAt: String,
-    private val fieldSize: Int = 10,
     val field: MutableList<MutableList<User?>> =
         MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } },
     val moves: MutableList<Move> = mutableListOf()
 ) {
     private val streakSize = 5
-    private val lastPlayer: User?
+    val lastPlayer: User?
         get() = moves.lastOrNull()?.user
 
     var isFinished = false
@@ -41,13 +47,15 @@ data class Game (
         }
     }
 
-    fun processMove(move: Move): Unit {
+    fun processMove(move: Move): Game {
         validateMove(move)
 
         field[move.x][move.y] = move.user
         moves.add(move)
 
         checkFinished(move)
+
+        return this
     }
 
     val players: Set<User>

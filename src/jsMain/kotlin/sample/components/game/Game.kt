@@ -19,7 +19,7 @@ interface GameProps : RProps {
 class GameView : RPureComponent<GameProps, RState>() {
     override fun RBuilder.render() {
         val modeClass = if (props.isMini) "Field-mini" else "Field-full"
-        val isInteractive = props.onMove != null
+        val isInteractive = props.onMove != null && props.game.lastPlayer != props.user
 
         div("Game ${"Game-finished".takeIf { props.game.isFinished } ?: ""}") {
             attrs.onClickFunction = { props.onClick?.invoke() }
@@ -32,7 +32,8 @@ class GameView : RPureComponent<GameProps, RState>() {
                                     cell?.let {
                                         attrs.jsStyle { color = it.pastelColor() }
                                     }
-                                    attrs.onClickFunction = { props.onMove?.invoke(AnonymousMove(props.game.id, row, col)) }
+                                    if (isInteractive)
+                                        attrs.onClickFunction = { props.onMove?.invoke(AnonymousMove(props.game.id, row, col)) }
                                     if (cell != null)
                                         userIcon(cell, "Field-cell-symbol")
                                     else if (isInteractive)

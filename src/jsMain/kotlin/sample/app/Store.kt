@@ -82,7 +82,8 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
         games = games.map {
             if (it.id == action.move.gameId)
                 it.copy().processMove(action.move)
-            it
+            else
+                it
         }.toList()
     }
     is Actions.AddGame -> state.update {
