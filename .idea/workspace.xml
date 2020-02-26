@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a980f1df-3544-42f6-ac52-92379208b928" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/commonMain/kotlin/sample/errors/ErrorMessage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.5.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/reactToastify/ReactToastify.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/reactToastify/ReactToastify.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/sample/models/Game.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/sample/models/Game.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/sample/Application.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/HttpClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/api/HttpClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/App.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/sample/app/Store.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +48,9 @@
     <property name="project.structure.side.proportion" value="0.4091954" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/jsMain/kotlin/sample/components/reactToastify" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/jsMain/kotlin/sample/components" />
       <recent name="$PROJECT_DIR$/src/jsMain/kotlin/sample/utils" />
@@ -124,9 +129,9 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="445" y="21" key="refactoring.ChangeSignatureDialog/0.0.1366.768@0.0.1366.768" timestamp="1582653019567" />
-    <state x="348" y="92" width="670" height="676" key="search.everywhere.popup" timestamp="1582619727414">
+    <state x="348" y="92" width="670" height="676" key="search.everywhere.popup" timestamp="1582712246698">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="348" y="92" width="670" height="676" key="search.everywhere.popup/0.0.1366.768@0.0.1366.768" timestamp="1582619727414" />
+    <state x="348" y="92" width="670" height="676" key="search.everywhere.popup/0.0.1366.768@0.0.1366.768" timestamp="1582712246698" />
   </component>
 </project>

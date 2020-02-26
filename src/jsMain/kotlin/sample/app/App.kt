@@ -11,8 +11,10 @@ import sample.api.WsClient
 import org.w3c.dom.events.Event
 import sample.utils.*
 import sample.components.topBar
+import kotlin.browser.window
+import sample.components.reactToastify.*
 
-val store = StateManager()
+val store = StateManager(onError = { Toast.Show.error(it ?: "Unknown error") })
 val wsClient = WsClient { store.processEvent(it) }
 
 class App : RComponent<AppProps, RState>() {
@@ -22,6 +24,7 @@ class App : RComponent<AppProps, RState>() {
             val state = store.store.getState()
             if (state.isOnline) wsClient.start() else wsClient.stop()
         }
+        window.asDynamic().toast = Toast
     }
 
     override fun RBuilder.render() {
@@ -39,6 +42,7 @@ class App : RComponent<AppProps, RState>() {
         div("Game-list Game-list-grid") {
             otherGames.map { game(game = it, key = it.id.toString(), isMini = true) }
         }
+        toastContainer()
     }
 }
 

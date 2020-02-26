@@ -25,16 +25,35 @@ class Actions: RAction {
     class Move(val move: sample.models.Move): RAction
     class SetRevision(val revision: Int): RAction
     class ToggleOnline(): RAction
+    class Error(val message: String?): RAction
 }
 
-class StateManager {
-    val store = createStore(::reduce, AppState(), rEnhancer())
-    private fun dispatchAsync(p: Promise<RAction>) = p.then { store.dispatch(it) }
+class StateManager(val onError: (message: String?) -> Unit) {
+    private fun notifyOnError() =
+        applyMiddleware<AppState, RAction, WrapperAction, RAction, WrapperAction>(
+            { _ ->
+                { next ->
+                    { action ->
+                        if (action is Actions.Error) onError(action.message)
+                        next(action)
+                    }
+                }
+            }
+        )
+    val store = createStore(
+        ::reduce,
+        AppState(),
+        compose(notifyOnError(), rEnhancer()))
+    private fun dispatchAsync(p: Promise<RAction>) = p
+        .then { it?.let { store.dispatch(it) } }
+        .catch { store.dispatch(Actions.Error(it.message)) }
+    private fun dispatchAsync(p: Promise<Unit>) = p
+        .catch { store.dispatch(Actions.Error(it.message)) }
 
     fun init() = dispatchAsync(Api.register().then { Actions.SetUser(it) }).then {
         dispatchAsync(Api.loadState().then { Actions.ApplySnapshot(it) })
     }
-    fun move(move: AnonymousMove) = Api.move(move)
+    fun move(move: AnonymousMove) = dispatchAsync(Api.move(move).then {})
     fun processMove(move: Move) = store.dispatch(Actions.Move(move))
     fun addGame(game: Game) = store.dispatch(Actions.AddGame(game))
     fun setRevision(revision: Int) = store.dispatch(Actions.SetRevision(revision))

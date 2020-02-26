@@ -4,6 +4,7 @@ import org.w3c.fetch.CORS
 import org.w3c.fetch.RequestInit
 import org.w3c.fetch.RequestMode
 import org.w3c.fetch.Response
+import sample.errors.ErrorMessage
 import kotlin.js.Json
 import kotlin.js.Promise
 import kotlin.js.json
@@ -26,7 +27,14 @@ class HttpClient {
     }
     private fun run(path: String, config: RequestInit) = fetch("$host$path", config).then {
         it.text()
+//            .then {res ->
+//                if (res.ok)
+//                    res.text()
+//                else
+//                    res.json().then { Promise.reject(Throwable((it as ErrorMessage).message)) }
+//            }
     }
+//    private fun <Res> runTyped(path: String, config: RequestInit)
 
     fun get(path: String) =
         run(path, getConfig())
