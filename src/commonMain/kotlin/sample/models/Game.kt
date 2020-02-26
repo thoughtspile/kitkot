@@ -84,5 +84,9 @@ data class Game (
         }
     }
 
+    fun deepCopy() = this.copy(
+        field = field.map { it.toMutableList() } .toMutableList(),
+        moves = moves.toMutableList())
+
     private fun isLegalPos(x: Int, y: Int) = x >= 0 && y >= 0 && x < fieldSize && y < fieldSize
 }
