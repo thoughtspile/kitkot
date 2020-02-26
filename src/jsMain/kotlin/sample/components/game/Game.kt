@@ -20,6 +20,7 @@ class GameView : RPureComponent<GameProps, RState>() {
     override fun RBuilder.render() {
         val modeClass = if (props.isMini) "Field-mini" else "Field-full"
         val isInteractive = props.onMove != null && props.game.lastPlayer != props.user
+        fun isWinningCell(x: Int, y: Int) = props.game.isFinished && props.game.winningStreak?.contains(x to y) ?: false
 
         div("Game ${"Game-finished".takeIf { props.game.isFinished } ?: ""}") {
             attrs.onClickFunction = { props.onClick?.invoke() }
@@ -28,7 +29,7 @@ class GameView : RPureComponent<GameProps, RState>() {
                     props.game.field.mapIndexed { row, cells ->
                         tr {
                             cells.mapIndexed { col, cell ->
-                                td("Field-cell") {
+                                td("Field-cell ${ if(isWinningCell(row, col)) "Field-cell-win" else ""}") {
                                     cell?.let {
                                         attrs.jsStyle { color = it.pastelColor() }
                                     }

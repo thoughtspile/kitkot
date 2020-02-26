@@ -9,7 +9,8 @@
   color: #bbb;
 }
 
-.Game-finished {
+.Game-finished .Field-cell:not(.Field-cell-win),
+.Game-finished .Field-mini {
     opacity: 0.6;
 }
 
@@ -31,12 +32,15 @@
   width: 320px;
 }
 
+.Field-cell {
+  text-align: center;
+}
+
 .Field-mini .Field-cell {
   width: 12px;
   height: 12px;
   line-height: 12px;
   font-size: 9px;
-  text-align: center;
 }
 
 .Field-full .Field-cell {

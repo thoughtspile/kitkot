@@ -69,20 +69,26 @@ data class Game (
         }
         val (user, x, y) = move
         val streak = ((-streakSize + 1) until streakSize)
-        isFinished = listOf(1 to 0, 0 to 1, 1 to 1, 1 to -1).any { (dx, dy) ->
+        val bestStreak = listOf(1 to 0, 0 to 1, 1 to 1, 1 to -1).map { (dx, dy) ->
             streak.map {
                 x + dx * it to y + dy * it
             } .filter { (x, y) ->
                 isLegalPos(x, y)
-            }.fold(0 to 0) { (best, prev), (x, y) ->
-                val cur = if (field[x][y] == user) prev + 1 else 0
-                max(best, cur) to cur
-            }.first >= streakSize
-        }
+            }.fold(emptyList<Coord>() to emptyList<Coord>()) { (best, prev), pos ->
+                val (x, y) = pos
+                val cur = if (field[x][y] == user) prev + pos else emptyList()
+                val nextBest = if (best.size > cur.size) best else cur
+                nextBest to cur
+            }.first
+        }.maxBy { it.size }
+        isFinished = (bestStreak?.size ?: 0) >= streakSize
         if (isFinished) {
             winner = user
+            winningStreak = bestStreak?.toSet()
         }
     }
+
+    var winningStreak: Set<Coord>? = null
 
     fun deepCopy() = this.copy(
         field = field.map { it.toMutableList() } .toMutableList(),
@@ -90,3 +96,5 @@ data class Game (
 
     private fun isLegalPos(x: Int, y: Int) = x >= 0 && y >= 0 && x < fieldSize && y < fieldSize
 }
+
+typealias Coord = Pair<Int, Int>

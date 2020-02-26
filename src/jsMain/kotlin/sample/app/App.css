@@ -45,6 +45,7 @@
   flex-direction: column;
   justify-content: space-between;
   font-size: 1.5rem;
+  color: #000;
   transition: color 300ms ease;
   cursor: pointer;
 }
