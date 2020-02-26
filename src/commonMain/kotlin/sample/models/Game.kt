@@ -1,6 +1,7 @@
 package sample.models
 
 import kotlinx.serialization.Serializable
+import sample.errors.IllegalMoveException
 
 @Serializable
 class AnonymousMove(val gameId: Int, val x: Int, val y: Int)
@@ -22,16 +23,20 @@ class Game (val id: Int, val createdBy: User, val createdAt: String) {
     var winner: User? = null
         private set
 
-    fun processMove(move: Move): Unit {
+    fun validateMove(move: Move) {
         if (isFinished) {
-            throw Exception("Cannot move in a finished game")
+            throw IllegalMoveException("Cannot move in a finished game")
         }
         if (field[move.x][move.y] != null) {
-            throw Exception("Already occupied")
+            throw IllegalMoveException("Cell already occupied")
         }
         if (lastPlayer == move.user) {
-            throw Exception("Cannot move twice in a row")
+            throw IllegalMoveException("Cannot move twice in a row")
         }
+    }
+
+    fun processMove(move: Move): Unit {
+        validateMove(move)
 
         field[move.x][move.y] = move.user
         moves.add(move)
