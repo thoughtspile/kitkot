@@ -45,7 +45,7 @@ object Actions: RAction {
 
     fun processEvent(e: Event): RThunk = thunkify { dispatch ->
         if (e is Event.ConnectEvent) {
-            syncChanges(e.order)
+            dispatch(syncChanges(e.order))
         } else {
             when(e) {
                 is Event.NewGameEvent -> dispatch(AddGame(e.game))
@@ -55,11 +55,11 @@ object Actions: RAction {
         }
     }
 
-    private fun syncChanges(currentRevision: Int) = thunkify<AppState> { _, getState ->
+    private fun syncChanges(currentRevision: Int) = thunkify<AppState> { dispatch, getState ->
         val storeRevision = getState().revision
         if (currentRevision > storeRevision) {
             Api.eventRange(storeRevision + 1, currentRevision).then { changes ->
-                changes.forEach { processEvent(it) }
+                changes.forEach { dispatch(processEvent(it)) }
             }
         }
     }
