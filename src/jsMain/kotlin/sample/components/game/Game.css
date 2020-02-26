@@ -11,7 +11,7 @@
 
 .Game-finished .Field-cell:not(.Field-cell-win),
 .Game-finished .Field-mini {
-    opacity: 0.6;
+    opacity: 0.4;
 }
 
 .Field {
