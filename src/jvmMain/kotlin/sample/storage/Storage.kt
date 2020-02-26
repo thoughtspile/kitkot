@@ -48,5 +48,5 @@ object Storage {
     fun getUser(uid: Int) = users.items[uid]
 
     fun eventRange(from: Int, to: Int) =
-        events.items.subList(maxOf(from, 0), minOf(to, events.items.size - 1))
+        events.items.subList(maxOf(from, 0), minOf(to + 1, events.items.size))
 }

@@ -147,6 +147,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("ok" to true))
             }
 
+            // Events with order in [from, to] (inclusive)
             get("/events/range/{from}/{to}") {
                 fun intParam(name: String) = call.parameters[name]?.toInt() ?: error("Range limits must be Int")
 

@@ -40,8 +40,7 @@ class StateManager {
     private fun syncChanges(currentRevision: Int) {
         var storeRevision = store.getState().revision
         if (currentRevision > storeRevision) {
-            Api.eventRange(storeRevision, currentRevision).then { changes ->
-                console.log(changes)
+            Api.eventRange(storeRevision + 1, currentRevision).then { changes ->
                 changes.forEach { processEvent(it) }
             }
         }
