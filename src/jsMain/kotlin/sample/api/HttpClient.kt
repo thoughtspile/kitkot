@@ -11,8 +11,8 @@ import kotlin.js.json
 
 external fun fetch(url: String, config: RequestInit): Promise<Response>
 
+
 class HttpClient {
-    private val host = "http://localhost:8080"
     var token: String? = null
     private fun getHeaders(): Json {
         val headers = json("Content-Type" to "application/json")
@@ -25,7 +25,7 @@ class HttpClient {
         override var body = body?.let { JSON.stringify(body) } ?: undefined
         override var mode = RequestMode.CORS as RequestMode?
     }
-    private fun run(path: String, config: RequestInit) = fetch("$host$path", config).then { res ->
+    private fun run(path: String, config: RequestInit) = fetch("//$HOST$path", config).then { res ->
         if (res.ok)
             res.text()
         else

@@ -16,7 +16,7 @@ class WsClient(val processEvent: (e: Event) -> Unit) {
 
     fun start() {
         if (webSocket != null) return
-        webSocket = Reconnecting.WebSocket("ws://localhost:8080/events").also {
+        webSocket = Reconnecting.WebSocket("ws:$HOST/events").also {
             it.onmessage = {
                 processEvent(json.parse(Event.serializer(), it.data.toString()))
             }
