@@ -3,3 +3,4 @@
 /.idea/tasks.xml/out
 /build
 .DS_Store
+/src/jvmMain/resources/client

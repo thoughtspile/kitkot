@@ -76,9 +76,35 @@ kotlin {
     }
 }
 
+
+task devClient(type: Exec) {
+    workingDir "./src/jsMain"
+    commandLine 'yarn'
+    commandLine 'yarn', 'start'
+}
+
+task buildClient(type: Exec) {
+    workingDir "./src/jsMain"
+    commandLine 'yarn'
+    commandLine 'yarn', 'build'
+}
+
+task copyStatic(type: Copy) {
+    from "$projectDir/src/jsMain/build"
+    into "$projectDir/src/jvmMain/resources/client"
+}
+
 task run(type: JavaExec) {
     group = "application"
     main = "sample.ApplicationKt"
     classpath(configurations.jvmRuntimeClasspath, jvmJar)
     args = []
+}
+
+task runWithClient {
+    dependsOn 'buildClient'
+    dependsOn 'copyStatic'
+    dependsOn 'run'
+    tasks.findByName('copyStatic').mustRunAfter 'buildClient'
+    tasks.findByName('run').mustRunAfter 'copyStatic'
 }

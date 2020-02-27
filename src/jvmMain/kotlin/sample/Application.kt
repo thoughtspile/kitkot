@@ -22,6 +22,9 @@ import java.time.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
 import io.ktor.http.cio.websocket.Frame
+import io.ktor.http.content.defaultResource
+import io.ktor.http.content.resources
+import io.ktor.http.content.static
 import io.ktor.serialization.serialization
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.coroutines.channels.consumeEach
@@ -76,8 +79,9 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
-        get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+        static("/") {
+            resources("client")
+            defaultResource("index.html", "client")
         }
 
         post("/auth") {
@@ -92,7 +96,6 @@ fun Application.module(testing: Boolean = false) {
         get("/state") {
             call.respond(Storage.snapshot)
         }
-
 
         authenticate {
             post("/games") {
