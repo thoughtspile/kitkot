@@ -177,15 +177,15 @@ module.exports = {
   },
   plugins: [
     new KotlinWebpackPlugin({
-      src: paths.appSrc,
+      src: [paths.appSrc, paths.commonSrc],
       output: paths.kotlinOutputPath,
       moduleName: kotlinModuleName,
       optimize: env.raw.REACT_APP_FORCE_DCE || false,
       librariesAutoLookup: true,
       packagesContents: [
-        
         require(paths.appPackageJson),
       ],
+      plugin: require.resolve('kotlin-compiler/lib/kotlinx-serialization-compiler-plugin.jar'),
     }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
