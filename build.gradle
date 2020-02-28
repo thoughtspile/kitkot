@@ -7,7 +7,15 @@ buildscript {
 plugins {
     id 'org.jetbrains.kotlin.multiplatform' version '1.3.61'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.61'
+    id 'com.github.johnrengelman.shadow' version "5.2.0"
+    id 'application'
 }
+
+application {
+    group = 'example'
+    mainClassName = 'io.ktor.server.netty.EngineMain'
+}
+
 repositories {
     jcenter()
     maven { url "https://dl.bintray.com/kotlin/ktor" }
@@ -16,6 +24,11 @@ repositories {
 
 kotlin {
     jvm()
+    jvmJar {
+        manifest {
+            attributes 'Main-Class': mainClassName
+        }
+    }
     js {
         browser {
         }
@@ -87,24 +100,42 @@ task buildClient(type: Exec) {
     workingDir "./src/jsMain"
     commandLine 'yarn'
     commandLine 'yarn', 'build'
+    doLast {
+        copy {
+            from "$projectDir/src/jsMain/build"
+            into "$projectDir/src/jvmMain/resources/client"
+        }
+    }
 }
 
-task copyStatic(type: Copy) {
-    from "$projectDir/src/jsMain/build"
-    into "$projectDir/src/jvmMain/resources/client"
-}
-
-task run(type: JavaExec) {
+task runServer(type: JavaExec) {
     group = "application"
-    main = "sample.ApplicationKt"
+    main = 'sample.ApplicationKt'
     classpath(configurations.jvmRuntimeClasspath, jvmJar)
     args = []
 }
 
+tasks.findByName('jsBrowserWebpack').enabled(false)
+compileKotlinJs {
+    enabled = false
+    dependsOn 'buildClient'
+}
+
 task runWithClient {
     dependsOn 'buildClient'
-    dependsOn 'copyStatic'
-    dependsOn 'run'
-    tasks.findByName('copyStatic').mustRunAfter 'buildClient'
-    tasks.findByName('run').mustRunAfter 'copyStatic'
+    dependsOn 'runServer'
+    tasks.findByName('runServer').mustRunAfter 'buildClient'
+}
+
+
+shadowJar {
+    dependsOn 'buildClient'
+    dependsOn 'jvmJar'
+    tasks.findByName('jvmJar').mustRunAfter 'buildClient'
+
+    from tasks.findByName('jvmJar').archiveFile
+    configurations = [project.configurations.jvmRuntimeClasspath]
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
 }
