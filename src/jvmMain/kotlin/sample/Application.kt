@@ -75,7 +75,7 @@ fun Application.module(testing: Boolean = false) {
 
     fun PipelineContext<Unit, ApplicationCall>.getUser(): User {
         val uid = call.principal<UserIdPrincipal>() ?: error("No principal")
-        return Storage.getUser(uid.name.toInt())
+        return Storage.getUser(uid.name.toInt()) ?: throw AuthenticationException()
     }
 
     routing {
@@ -98,6 +98,10 @@ fun Application.module(testing: Boolean = false) {
         }
 
         authenticate {
+            get("/user") {
+                call.respond(getUser())
+            }
+
             post("/games") {
                 Storage.startGame(getUser())
                 call.respond(mapOf("ok" to true))
@@ -142,8 +146,8 @@ fun Application.module(testing: Boolean = false) {
     }
 }
 
-class AuthenticationException : RuntimeException()
-class AuthorizationException : RuntimeException()
+class AuthenticationException : RuntimeException("Bad auth")
+class AuthorizationException : RuntimeException("Not allowed")
 
 
 class BaseJWT {

@@ -12,11 +12,10 @@ import kotlin.js.json
 external fun fetch(url: String, config: RequestInit): Promise<Response>
 
 
-class HttpClient {
-    var token: String? = null
+class HttpClient(val onAuthError: () -> Unit) {
     private fun getHeaders(): Json {
         val headers = json("Content-Type" to "application/json")
-        token?.let { headers["Authorization"] = "Bearer $token" }
+        Token.token?.let { headers["Authorization"] = "Bearer $it" }
         return headers
     }
     private fun getConfig(method: String? = "GET", body: Any? = null) = object : RequestInit {
@@ -25,14 +24,20 @@ class HttpClient {
         override var body = body?.let { JSON.stringify(body) } ?: undefined
         override var mode = RequestMode.CORS as RequestMode?
     }
-    private fun run(path: String, config: RequestInit) = fetch("//$HOST$path", config).then { res ->
-        if (res.ok)
-            res.text()
-        else
+    private fun run(path: String, config: RequestInit) =
+        fetch("//$HOST$path", config).then(fun (res): Promise<String> {
+            if (res.ok) {
+                return res.text()
+            }
+            if (res.status == 401.toShort()) {
+                onAuthError()
+                throw Throwable("Bad auth")
+            }
             // XXX: These casts are nasty, but everything else seems to break typing
-            res.json().then { Promise.reject(Throwable(it.asDynamic().message as String)).asDynamic() }
-    }
-//    private fun <Res> runTyped(path: String, config: RequestInit)
+            return res.json().then {
+                throw Throwable(it.asDynamic().message as String)
+            }
+        })
 
     fun get(path: String) =
         run(path, getConfig())

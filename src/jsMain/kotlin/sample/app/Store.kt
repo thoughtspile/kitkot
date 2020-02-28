@@ -35,7 +35,7 @@ object Actions: RAction {
 
     // Thunks
     fun init() = pThunkify { dispatch ->
-        Api.register()
+        Api.ensureUser()
             .then { dispatch(SetUser(it)) }
             .then { Api.loadState() }
             .then { dispatch(ApplySnapshot(it)) }

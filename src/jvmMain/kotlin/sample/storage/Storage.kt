@@ -45,7 +45,7 @@ object Storage {
             COLORS.values().let { it[index % it.size] })
     }
 
-    fun getUser(uid: Int) = users.items[uid]
+    fun getUser(uid: Int) = users.items.getOrNull(uid)
 
     fun eventRange(from: Int, to: Int) =
         events.items.subList(maxOf(from, 0), minOf(to + 1, events.items.size))
