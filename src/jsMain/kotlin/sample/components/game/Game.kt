@@ -28,9 +28,10 @@ class GameView : RPureComponent<GameProps, RState>() {
             attrs.onClickFunction = { props.onClick?.invoke() }
             table("Field $modeClass") {
                 tbody {
-                    props.game.field.mapIndexed { row, cells ->
+                    (0 until props.game.fieldSize).map { row ->
                         tr {
-                            cells.mapIndexed { col, cell ->
+                            (0 until props.game.fieldSize).map { col ->
+                                val cell = props.game.field[row to col]
                                 td("Field-cell ${ if(isWinningCell(row, col)) "Field-cell-win" else ""}") {
                                     cell?.let {
                                         attrs.jsStyle { color = it.pastelColor() }

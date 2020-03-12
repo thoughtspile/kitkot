@@ -1,17 +1,17 @@
 package sample.storage
 
 class AutoIncrementStore<Item>(private val name: String) {
-    var items = listOf<Item>()
+    var items = mutableListOf<Item>()
         private set
 
     @Synchronized
     fun insert(build: (id: Int) -> Item): Item {
         val item = build(items.size)
-        items += item
+        items.add(item)
         return item
     }
 
-    fun update(id: Int, action: Item.() -> Unit) {
-        items.getOrNull(id)?.action() ?: error("invalid $name ID")
+    fun update(id: Int, action: Item.() -> Item) {
+        items[id] = items.getOrNull(id)?.action() ?: error("invalid $name ID")
     }
 }
