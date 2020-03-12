@@ -8,7 +8,7 @@ import kotlin.math.max
 class AnonymousMove(val gameId: Int, val x: Int, val y: Int)
 
 @Serializable
-data class Move(val user: User, val x: Int, val y: Int, val gameId: Int)
+data class Move(val user: User, val x: Int, val y: Int, val gameId: Int, val isPending: Boolean = false)
 
 
 // Data class trickery allows immutable copy() for react pure
@@ -54,6 +54,14 @@ data class Game (
         return this.copy(
             field = field + ((move.x to move.y) to move.user),
             moves = moves + move)
+    }
+
+    fun popMove(): Game {
+        val lastMove = moves.lastOrNull() ?: return this
+        return copy(
+            moves = moves.dropLast(1),
+            field = field - (lastMove.x to lastMove.y)
+        )
     }
 
     val players: Set<User>

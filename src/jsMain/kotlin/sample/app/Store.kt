@@ -4,10 +4,8 @@ import sample.events.Event
 import sample.models.*
 import sample.api.Api
 import redux.*
-import sample.utils.RThunk
 import kotlin.js.Promise
-import sample.utils.rThunk
-import sample.utils.thunkify
+import sample.utils.*
 
 data class AppState(
     var games: List<Game> = emptyList(),
@@ -27,11 +25,12 @@ object Actions: RAction {
     class SetUser(val user: User): RAction
     class ApplySnapshot(val snapshot: StateSnapshot): RAction
     class AddGame(val game: Game, val revision: Int): RAction
-    class Move(val move: sample.models.Move, val revision: Int): RAction
+    class Move(val move: sample.models.Move, val revision: Int? = null): RAction
     class SetRevision(val revision: Int): RAction
     class ToggleOnline: RAction
     class Error(val message: String?): RAction
     class FocusGame(val id: Int?): RAction
+    class CancelPending(val gameId: Int): RAction
 
     // Thunks
     fun init() = pThunkify { dispatch ->
@@ -41,7 +40,13 @@ object Actions: RAction {
             .then { dispatch(ApplySnapshot(it)) }
     }
 
-    fun move(move: AnonymousMove) = pThunkify { Api.move(move) }
+    fun move(move: AnonymousMove) = thunkify { dispatch, getState: () -> AppState ->
+        dispatch(Move(sample.models.Move(getState().user!!, move.x, move.y, move.gameId, true)))
+        Api.move(move).catch {
+            dispatch(CancelPending(move.gameId))
+            dispatch(Error(it.message))
+        }
+    }
 
     fun processEvent(e: Event): RThunk = thunkify { dispatch ->
         when(e) {
@@ -77,17 +82,22 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
     is Actions.Move -> state.update {
         games = games.map {
             if (it.id == action.move.gameId)
-                it.processMove(action.move)
+                it.processWithPending(action.move)
             else
                 it
         }.toList()
-        revision = action.revision
+        revision = action.revision ?: revision
     }
     is Actions.AddGame -> state.update {
         games += action.game
         revision = action.revision
         if (state.user == action.game.createdBy) {
             focusedGame = action.game.id
+        }
+    }
+    is Actions.CancelPending -> state.update {
+        games = games.map {
+            if (it.id == action.gameId) it.cancelPending() else it
         }
     }
     is Actions.SetRevision -> state.update { revision = action.revision }
