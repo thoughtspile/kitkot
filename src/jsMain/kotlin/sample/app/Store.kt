@@ -26,8 +26,8 @@ object Actions: RAction {
     // Atomic actions
     class SetUser(val user: User): RAction
     class ApplySnapshot(val snapshot: StateSnapshot): RAction
-    class AddGame(val game: Game): RAction
-    class Move(val move: sample.models.Move): RAction
+    class AddGame(val game: Game, val revision: Int): RAction
+    class Move(val move: sample.models.Move, val revision: Int): RAction
     class SetRevision(val revision: Int): RAction
     class ToggleOnline: RAction
     class Error(val message: String?): RAction
@@ -44,14 +44,10 @@ object Actions: RAction {
     fun move(move: AnonymousMove) = pThunkify { Api.move(move) }
 
     fun processEvent(e: Event): RThunk = thunkify { dispatch ->
-        if (e is Event.ConnectEvent) {
-            dispatch(syncChanges(e.order))
-        } else {
-            when(e) {
-                is Event.NewGameEvent -> dispatch(AddGame(e.game))
-                is Event.MoveEvent -> dispatch(Move(e.move))
-            }
-            dispatch(SetRevision(e.order))
+        when(e) {
+            is Event.NewGameEvent -> dispatch(AddGame(e.game, e.order))
+            is Event.MoveEvent -> dispatch(Move(e.move, e.order))
+            is Event.ConnectEvent -> dispatch(syncChanges(e.order))
         }
     }
 
@@ -85,9 +81,11 @@ private fun reduce(state: AppState, action: RAction) = when (action) {
             else
                 it
         }.toList()
+        revision = action.revision
     }
     is Actions.AddGame -> state.update {
         games += action.game
+        revision = action.revision
         if (state.user == action.game.createdBy) {
             focusedGame = action.game.id
         }
