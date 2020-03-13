@@ -26,9 +26,10 @@ class App : RComponent<AppProps, RState>() {
         }
     }
 
-    private fun RBuilder.gameThumb(game: Game) = child(GameView::class) {
+    private fun RBuilder.gameThumb(game: Game, user: User?) = child(GameView::class) {
         attrs.game = game
         attrs.isMini = true
+        attrs.user = user
         attrs.onClick = { store.dispatch(Actions.FocusGame(game.id)) }
     }
 
@@ -45,7 +46,7 @@ class App : RComponent<AppProps, RState>() {
             toggleOnline = { store.dispatch(Actions.ToggleOnline()) })
         div("Game-list Game-list-scroller") {
             myGamesControl(onCreate = { Api.createGame() }, user = props.user)
-            ownGames.map { gameThumb(it) }
+            ownGames.map { gameThumb(it, props.user) }
         }
         props.focusedGame?.let { game ->
             div("App-gameScreen") {
@@ -71,7 +72,7 @@ class App : RComponent<AppProps, RState>() {
                     div { +"Join random!" }
                 }
             }
-            otherGames.map { gameThumb(it) }
+            otherGames.map { gameThumb(it, props.user) }
         }
         toastContainer()
     }

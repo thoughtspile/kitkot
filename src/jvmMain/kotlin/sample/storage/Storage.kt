@@ -29,7 +29,7 @@ object Storage {
 
     suspend fun startGame(user: User) {
         val game = games.insert { Game(it, user, isoNow()) }
-        emit { Event.NewGameEvent(game.deepCopy(), it) }
+        emit { Event.NewGameEvent(game, it) }
     }
 
     @Synchronized

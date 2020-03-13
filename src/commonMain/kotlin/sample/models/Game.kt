@@ -8,14 +8,8 @@ import kotlin.math.max
 class AnonymousMove(val gameId: Int, val x: Int, val y: Int)
 
 @Serializable
-data class Move(val user: User, val x: Int, val y: Int, val gameId: Int)
+data class Move(val user: User, val x: Int, val y: Int, val gameId: Int, val isPending: Boolean = false)
 
-// NOTE:
-// private val fieldSize: Int = 10,
-// val field: MutableList<MutableList<User?>> =
-//    MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } },
-// Did not compile to JS properly
-private const val fieldSize = 10
 
 // Data class trickery allows immutable copy() for react pure
 @Serializable
@@ -23,10 +17,10 @@ data class Game (
     val id: Int,
     val createdBy: User,
     val createdAt: String,
-    val field: MutableList<MutableList<User?>> =
-        MutableList(fieldSize) { MutableList<User?>(fieldSize) { null } },
-    val moves: MutableList<Move> = mutableListOf()
+    val field: Map<Pair<Int, Int>, User> = emptyMap(),
+    val moves: List<Move> = listOf()
 ) {
+    val fieldSize = 10
     private val streakSize = 5
     val lastPlayer: User?
         get() = moves.lastOrNull()?.user
@@ -35,35 +29,49 @@ data class Game (
         private set
     var winner: User? = null
         private set
+    var winningStreak: Set<Coord>? = null
+        private set
+
+    init {
+        moves.lastOrNull()?.let(::checkFinished)
+    }
 
     fun validateMove(move: Move) {
         if (isFinished) {
             throw IllegalMoveException("Cannot move in a finished game")
         }
-        if (field[move.x][move.y] != null) {
+        if (field.contains(move.x to move.y)) {
             throw IllegalMoveException("Cell already occupied")
         }
         if (lastPlayer == move.user) {
             throw IllegalMoveException("Cannot move twice in a row")
+        }
+        if (move.x >= fieldSize || move.y >= fieldSize) {
+            throw IllegalMoveException("Position not in field")
         }
     }
 
     fun processMove(move: Move): Game {
         validateMove(move)
 
-        field[move.x][move.y] = move.user
-        moves.add(move)
+        return this.copy(
+            field = field + ((move.x to move.y) to move.user),
+            moves = moves + move)
+    }
 
-        checkFinished(move)
-
-        return this
+    fun popMove(): Game {
+        val lastMove = moves.lastOrNull() ?: return this
+        return copy(
+            moves = moves.dropLast(1),
+            field = field - (lastMove.x to lastMove.y)
+        )
     }
 
     val players: Set<User>
         get() = moves.map { it.user }.toSet()
 
     private fun checkFinished(move: Move) {
-        if (moves.size === fieldSize * fieldSize) {
+        if (moves.size == fieldSize * fieldSize) {
             isFinished = true
             return
         }
@@ -75,8 +83,7 @@ data class Game (
             } .filter { (x, y) ->
                 isLegalPos(x, y)
             }.fold(emptyList<Coord>() to emptyList<Coord>()) { (best, prev), pos ->
-                val (x, y) = pos
-                val cur = if (field[x][y] == user) prev + pos else emptyList()
+                val cur = if (field[pos] == user) prev + pos else emptyList()
                 val nextBest = if (best.size > cur.size) best else cur
                 nextBest to cur
             }.first
@@ -87,12 +94,6 @@ data class Game (
             winningStreak = bestStreak?.toSet()
         }
     }
-
-    var winningStreak: Set<Coord>? = null
-
-    fun deepCopy() = this.copy(
-        field = field.map { it.toMutableList() } .toMutableList(),
-        moves = moves.toMutableList())
 
     private fun isLegalPos(x: Int, y: Int) = x >= 0 && y >= 0 && x < fieldSize && y < fieldSize
 }
