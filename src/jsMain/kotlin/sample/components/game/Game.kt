@@ -19,11 +19,12 @@ interface GameProps : RProps {
 class GameView : RPureComponent<GameProps, RState>() {
     override fun RBuilder.render() {
         val modeClass = if (props.isMini) "Field-mini" else "Field-full"
-        val awaitMove = props.game.lastPlayer == props.user
-        val isInteractive = props.onMove != null && !props.game.isFinished && !awaitMove
-        fun isWinningCell(x: Int, y: Int) = props.game.isFinished && props.game.winningStreak?.contains(x to y) ?: false
+        val isFinished = props.game.isFinished
+        val awaitMove = !isFinished && props.game.lastPlayer == props.user
+        val isInteractive = props.onMove != null && !isFinished && !awaitMove
+        fun isWinningCell(x: Int, y: Int) = isFinished && props.game.winningStreak?.contains(x to y) ?: false
 
-        div("Game ${"Game-finished".takeIf { props.game.isFinished } ?: ""}") {
+        div("Game ${"Game-finished".takeIf { isFinished } ?: ""}") {
             attrs.onClickFunction = { props.onClick?.invoke() }
             table("Field $modeClass") {
                 tbody {
@@ -54,12 +55,14 @@ class GameView : RPureComponent<GameProps, RState>() {
                 }
                 div("Game-overlay") {
                     div { +"Players: ${props.game.players.size}" }
-                    props.game.winner?.let {
-                        div {
-                            +"Winner: "
-                            userIcon(it)
-                        }
-                    } ?: if (props.game.isFinished) div { +"Draw" }
+                    if (isFinished) {
+                        props.game.winner?.let {
+                            div {
+                                +"Winner: "
+                                userIcon(it)
+                            }
+                        } ?: div { +"Draw" }
+                    }
                 }
             }
         }
