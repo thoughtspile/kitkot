@@ -46,6 +46,9 @@ data class Game (
         if (lastPlayer == move.user) {
             throw IllegalMoveException("Cannot move twice in a row")
         }
+        if (move.x >= fieldSize || move.y >= fieldSize) {
+            throw IllegalMoveException("Position not in field")
+        }
     }
 
     fun processMove(move: Move): Game {
@@ -68,7 +71,7 @@ data class Game (
         get() = moves.map { it.user }.toSet()
 
     private fun checkFinished(move: Move) {
-        if (moves.size === fieldSize * fieldSize) {
+        if (moves.size == fieldSize * fieldSize) {
             isFinished = true
             return
         }
