@@ -19,9 +19,8 @@ interface GameProps : RProps {
 class GameView : RPureComponent<GameProps, RState>() {
     override fun RBuilder.render() {
         val modeClass = if (props.isMini) "Field-mini" else "Field-full"
-        val isInteractive = props.onMove != null &&
-                props.game.lastPlayer != props.user &&
-                !props.game.isFinished
+        val awaitMove = props.game.lastPlayer == props.user
+        val isInteractive = props.onMove != null && !props.game.isFinished && !awaitMove
         fun isWinningCell(x: Int, y: Int) = props.game.isFinished && props.game.winningStreak?.contains(x to y) ?: false
 
         div("Game ${"Game-finished".takeIf { props.game.isFinished } ?: ""}") {
@@ -32,12 +31,13 @@ class GameView : RPureComponent<GameProps, RState>() {
                         tr {
                             (0 until props.game.fieldSize).map { col ->
                                 val cell = props.game.field[row to col]
-                                td("Field-cell ${ if(isWinningCell(row, col)) "Field-cell-win" else ""}") {
+                                td("Field-cell ${if (isWinningCell(row, col)) "Field-cell-win" else ""}") {
                                     cell?.let {
                                         attrs.jsStyle { color = it.pastelColor() }
                                     }
                                     if (isInteractive)
-                                        attrs.onClickFunction = { props.onMove?.invoke(AnonymousMove(props.game.id, row, col)) }
+                                        attrs.onClickFunction =
+                                            { props.onMove?.invoke(AnonymousMove(props.game.id, row, col)) }
                                     if (cell != null)
                                         userIcon(cell, "Field-cell-symbol")
                                     else if (isInteractive)
@@ -48,9 +48,12 @@ class GameView : RPureComponent<GameProps, RState>() {
                     }
                 }
             }
-            if (props.onMove == null)
+            if (props.onMove == null) {
+                if (awaitMove) {
+                    div("Game-waitIcon fa fa-clock") {}
+                }
                 div("Game-overlay") {
-                    div { +"Players: ${props.game.players.size}"}
+                    div { +"Players: ${props.game.players.size}" }
                     props.game.winner?.let {
                         div {
                             +"Winner: "
@@ -58,6 +61,7 @@ class GameView : RPureComponent<GameProps, RState>() {
                         }
                     } ?: if (props.game.isFinished) div { +"Draw" }
                 }
+            }
         }
     }
 }
